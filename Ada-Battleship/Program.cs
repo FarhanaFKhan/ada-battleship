@@ -6,7 +6,9 @@ namespace Ada_Battleship
     {
         static void Main(string[] args)
         {
+            Setup config = Setup.Instance;
             Console.WriteLine("Hello World!");
+
         }
     }
 }

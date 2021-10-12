@@ -1,0 +1,13 @@
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\bin\Debug\netcoreapp3.1\Ada-Battleship.exe
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\bin\Debug\netcoreapp3.1\Ada-Battleship.deps.json
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\bin\Debug\netcoreapp3.1\Ada-Battleship.runtimeconfig.json
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\bin\Debug\netcoreapp3.1\Ada-Battleship.runtimeconfig.dev.json
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\bin\Debug\netcoreapp3.1\Ada-Battleship.dll
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\bin\Debug\netcoreapp3.1\Ada-Battleship.pdb
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.csprojAssemblyReference.cache
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.AssemblyInfoInputs.cache
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.AssemblyInfo.cs
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.csproj.CoreCompileInputs.cache
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.dll
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.pdb
+C:\Users\KhanF\Ada\Ada-Battleship\Ada-Battleship\obj\Debug\netcoreapp3.1\Ada-Battleship.genruntimeconfig.cache
