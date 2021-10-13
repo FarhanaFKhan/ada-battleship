@@ -7,7 +7,15 @@ namespace Ada_Battleship
         static void Main(string[] args)
         {
             Setup config = Setup.Instance;
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(config.BoardHeight);
+            Console.WriteLine(config.BoardWidth);
+            var shipInfo = config.ShipDetails;
+
+            foreach (var ship in shipInfo)
+            {
+                Console.WriteLine(ship.ShipName + ", " + ship.ShipLength);
+            }
+            
 
         }
     }
