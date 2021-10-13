@@ -1,4 +1,5 @@
 ﻿using System;
+using Ada_Battleship.Configurations;
 
 namespace Ada_Battleship
 {

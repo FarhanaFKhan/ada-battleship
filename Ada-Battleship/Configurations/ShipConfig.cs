@@ -1,4 +1,4 @@
-﻿namespace Ada_Battleship
+﻿namespace Ada_Battleship.Configurations
 {
     public class ShipConfig
     {
