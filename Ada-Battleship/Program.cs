@@ -16,7 +16,9 @@ namespace Ada_Battleship
             {
                 Console.WriteLine(ship.ShipName + ", " + ship.ShipLength);
             }
-            
+
+            Board gameBoard = new Board();
+            gameBoard.DisplayBoard();
 
         }
     }
