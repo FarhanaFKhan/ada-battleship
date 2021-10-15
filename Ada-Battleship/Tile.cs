@@ -4,7 +4,7 @@
     {
         public Coordinate Coordinate { get; set; }
         public TileStatus TileStatus;
-        public string ColumnLabel;
+        public char TilePlaceholder { get; set; }
 
             
 
@@ -12,7 +12,7 @@
         {
             Coordinate = new Coordinate(x, y);
             TileStatus = TileStatus.Available;
-            //ColumnLabel = columnLabel;
+            TilePlaceholder = '.';
         }
     }
 }
