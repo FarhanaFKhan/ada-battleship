@@ -12,6 +12,7 @@ namespace Ada_Battleship
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<char> _columnLabels = new List<char>() { 'A', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
         private readonly List<Tile> _tiles = new List<Tile>();
+        
 
         private void AddTile()
         {
@@ -26,6 +27,7 @@ namespace Ada_Battleship
         }
         public void DisplayBoard()
         {
+            Console.Clear();
             AddTile();
 
             for (var i = 0; i < _boardWidth; i++)
@@ -45,7 +47,6 @@ namespace Ada_Battleship
 
                 for (var j = 0; j < _boardWidth; j++)
                 {
-                    /*Console.Write("\t" + _tiles[j + counter].Coordinate.X + "," + _tiles[j + counter].Coordinate.Y)*/;
                     Console.Write("\t"+_tiles[j+counter].TilePlaceholder);
                 }
 
@@ -55,14 +56,32 @@ namespace Ada_Battleship
 
             }
         }
-        public void PlaceShip(int x, int y)
+        public void PlaceShip(string shipName,int x, int y)
         {
+            //length and direction
+            var fleet = Setup.Instance.ShipDetails;
+            int shipLength = 0;
+            foreach (var ship in fleet)
+            {
+                if (ship.ShipName == shipName)
+                {
+                    shipLength = ship.ShipLength;
+                }
+                
+            }
+            
             foreach (var tile in _tiles)
             {
-                if (tile.Coordinate.X == x && tile.Coordinate.Y == y)
+                for (int i = 0; i < shipLength; i++)
                 {
-                    tile.TilePlaceholder = 's';
+                    if (tile.Coordinate.X == x && tile.Coordinate.Y == y+i)
+                    {
+                        tile.TilePlaceholder = 's';
+
+                    }
+
                 }
+               
             }
 
 
