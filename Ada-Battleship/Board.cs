@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Security.Cryptography.X509Certificates;
 using Ada_Battleship.Configurations;
 
 namespace Ada_Battleship
@@ -26,11 +27,6 @@ namespace Ada_Battleship
         public void DisplayBoard()
         {
             AddTile();
-            _tiles[3].TileStatus = TileStatus.Hit;
-            _tiles[3].TilePlaceholder = 'x';
-            _tiles[10].TileStatus = TileStatus.Ship;
-            _tiles[10].TilePlaceholder = 's';
-
 
             for (var i = 0; i < _boardWidth; i++)
             {
@@ -39,7 +35,9 @@ namespace Ada_Battleship
             }
 
             Console.WriteLine();
+
             var counter = 0;
+
             for (var i = 1; i <= _boardHeight; i++)
             {
                 Console.Write(i);
@@ -47,7 +45,8 @@ namespace Ada_Battleship
 
                 for (var j = 0; j < _boardWidth; j++)
                 {
-                    Console.Write("\t" + _tiles[j + counter].Coordinate.X + "," + _tiles[j + counter].Coordinate.Y);
+                    /*Console.Write("\t" + _tiles[j + counter].Coordinate.X + "," + _tiles[j + counter].Coordinate.Y)*/;
+                    Console.Write("\t"+_tiles[j+counter].TilePlaceholder);
                 }
 
                 counter += _boardWidth;
@@ -55,7 +54,17 @@ namespace Ada_Battleship
                 Console.Write("\n");
 
             }
-            
+        }
+        public void PlaceShip(int x, int y)
+        {
+            foreach (var tile in _tiles)
+            {
+                if (tile.Coordinate.X == x && tile.Coordinate.Y == y)
+                {
+                    tile.TilePlaceholder = 's';
+                }
+            }
+
 
         }
 

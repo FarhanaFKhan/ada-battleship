@@ -14,12 +14,13 @@ namespace Ada_Battleship
 
             foreach (var ship in shipInfo)
             {
-                Console.WriteLine(ship.ShipName + ", " + ship.ShipLength);
+                Console.WriteLine("Name: "+ship.ShipName + " ,Length:" + ship.ShipLength +" ,Health: "+ship.Health + " ,Status:" + ship.Status);
             }
 
             Board gameBoard = new Board();
             gameBoard.DisplayBoard();
-
+            gameBoard.PlaceShip(3,9);
+            gameBoard.DisplayBoard();
         }
     }
 }
