@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Security.Cryptography.X509Certificates;
 using Ada_Battleship.Configurations;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Ada_Battleship
 {
@@ -27,7 +28,7 @@ namespace Ada_Battleship
         }
         public void DisplayBoard()
         {
-            Console.Clear();
+           // Console.Clear();
             AddTile();
 
             for (var i = 0; i < _boardWidth; i++)
@@ -86,6 +87,21 @@ namespace Ada_Battleship
 
 
         }
+        //using tuple to be able to split the move in one function
+        public (char, int) SplitMove(string userInput)
+        {
+            string input = userInput.Trim().ToUpper();
+            var columnlabel = input[0];
+            var rowNumber = input[1] - '0';
+
+            return (columnlabel, rowNumber);
+        }
+
+        //public bool ValidateMove(string coordinates)
+        //{
+        //    var isValid = false;
+        //    if(_tiles.Contains())
+        //}
 
 
     }
