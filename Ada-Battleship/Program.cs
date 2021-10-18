@@ -38,16 +38,28 @@ namespace Ada_Battleship
             Console.WriteLine($"rowNumber: {splitMove.Item2}");
             columnLabel = splitMove.Item1;
             rowNumber = splitMove.Item2;
+
+            var columnNumber = gameBoard.AlphabetToInt(columnLabel);
+
             //validator for input
-            gameBoard.PlaceShip("Carrier",columnLabel,rowNumber);
+            var isValid = gameBoard.ValidateMove(columnNumber,rowNumber);
+            if (isValid)
+            {
+                gameBoard.PlaceShip("Carrier", rowNumber,columnNumber);
+                gameBoard.DisplayBoard();
+            }
+            else
+            {
+                Console.WriteLine("Please enter a valid move");
+            }
+
             //Console.Clear(); //await or state?
-            gameBoard.DisplayBoard();
             //gameBoard.PlaceShip("Battleship", 2, 2);
             //gameBoard.DisplayBoard();
-           // gameBoard.PlaceShip("Patrol Boat", 1, 9);
-           // gameBoard.DisplayBoard();
-           // gameBoard.PlaceShip("Destroyer", 6, 3);
-           // gameBoard.DisplayBoard();
+            // gameBoard.PlaceShip("Patrol Boat", 1, 9);
+            // gameBoard.DisplayBoard();
+            // gameBoard.PlaceShip("Destroyer", 6, 3);
+            // gameBoard.DisplayBoard();
             //gameBoard.PlaceShip("Submarine", 9, 7);
             //gameBoard.DisplayBoard();
 

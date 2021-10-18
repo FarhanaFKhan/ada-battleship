@@ -49,6 +49,7 @@ namespace Ada_Battleship
                 for (var j = 0; j < _boardWidth; j++)
                 {
                     Console.Write("\t"+_tiles[j+counter].TilePlaceholder);
+                    //Console.Write("\t" + _tiles[j+counter].Coordinate.X + "," + _tiles[j].Coordinate.Y);
                 }
 
                 counter += _boardWidth;
@@ -97,11 +98,26 @@ namespace Ada_Battleship
             return (columnlabel, rowNumber);
         }
 
-        //public bool ValidateMove(string coordinates)
-        //{
-        //    var isValid = false;
-        //    if(_tiles.Contains())
-        //}
+        public int AlphabetToInt(char columnLabel)
+        {
+            int alphabetToNum = columnLabel - 64;
+            return alphabetToNum;
+        }
+
+        public bool ValidateMove(int columnNumber, int rowNumber)
+        {
+            var isValid = false;
+
+            foreach (var tile in _tiles)
+            {
+                if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber)
+                {
+                    isValid = true;
+                }
+            }
+
+            return isValid;
+        }
 
 
     }
