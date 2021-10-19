@@ -10,23 +10,25 @@ namespace Ada_Battleship
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails;
 
+        string playerName;
         private int _mainOption;
 
         public void MainMenu()
         {
+            
+            //this will be stored in player class
+            Console.WriteLine("Please enter your name:");
+            playerName = Console.ReadLine();
+
+            Console.WriteLine($"Greetings {playerName}! You have the following settings:");
+            Console.WriteLine();
+
             Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
-            Console.WriteLine("Available Ships:");
-            Console.WriteLine();
-            Console.Write("\tName  \tLength  \tHealth  \tstatus");
-            Console.WriteLine();
-            foreach (var ship in _shipInfo)
-            {
-                Console.WriteLine("\t"+ ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
-            }
+            DisplayAvailableShips();
             Console.WriteLine();
             Console.WriteLine("Select Game Mode:");
-            Console.WriteLine("1.Player v Player.");
-            Console.WriteLine("2.Player v Comp.");
+            Console.WriteLine("1.Player v Comp.");
+            Console.WriteLine("2.Quit.");
             try
             {
                 _mainOption = int.Parse(Console.ReadLine());
@@ -40,22 +42,40 @@ namespace Ada_Battleship
 
             switch (_mainOption)
             {
-                case 3:
+                case 2:
                     Console.WriteLine("Quit Game");
                     break;
-                case 2:
-                    Console.WriteLine("PvC");
-                    break;
                 default:
-                    Console.WriteLine("PvP");
+                    PvCMenu();
                     break;
             }
 
         }
 
-        public void PvPMenu()
+        public void PvCMenu()
         {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("You are now in PvC mode");
+            Console.WriteLine();
+            DisplayAvailableShips();
+            Console.WriteLine();
+            Console.WriteLine("1.Place all ships randomly.");
+            Console.WriteLine("2.Place remaining ships randomly.");
+            Console.WriteLine("3.Place ship manually.");
+            Console.WriteLine("4.Reset board.");
+        }
 
+        private void DisplayAvailableShips()
+        {
+            Console.WriteLine("Available Ships:");
+            Console.WriteLine();
+            Console.Write("\tName  \tLength  \tHealth  \tstatus");
+            Console.WriteLine();
+            foreach (var ship in _shipInfo)
+            {
+                Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
+            }
         }
 
     }
