@@ -9,17 +9,10 @@ namespace Ada_Battleship
         static void Main(string[] args)
         {
             //launcher
-            Setup config = Setup.Instance;
-            var boardHeight = config.BoardHeight;
-            var boardWidth = config.BoardWidth;
-            Console.WriteLine(boardHeight);
-            Console.WriteLine(boardWidth);
-            var shipInfo = config.ShipDetails;
 
-            foreach (var ship in shipInfo)
-            {
-                Console.WriteLine("Name: "+ship.ShipName + " ,Length:" + ship.ShipLength +" ,Health: "+ship.Health + " ,Status:" + ship.Status);
-            }
+            var menu = new Menu();
+            menu.MainMenu();
+            
 
             Board gameBoard = new Board();
             gameBoard.DisplayBoard();
@@ -35,7 +28,15 @@ namespace Ada_Battleship
             Console.WriteLine("1.Place ship manually");
             Console.WriteLine("2.Randomly place ship");
             Console.WriteLine("3. to quit.");
-            option = int.Parse(Console.ReadLine());
+            try
+            {
+                option = int.Parse(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw new Exception();
+            }
 
 
             if (option == 1)
@@ -69,9 +70,8 @@ namespace Ada_Battleship
 
             if (option == 2)
             {
-                var rand = new Random();
-                columnNumber = rand.Next(1,boardWidth);
-                rowNumber = rand.Next(1, boardHeight);
+                columnNumber = gameBoard.RandomlyGenerateColumnNumber();
+                rowNumber = gameBoard.RandomlyGenerateRowNumber();
                 gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
                 gameBoard.DisplayBoard();
 

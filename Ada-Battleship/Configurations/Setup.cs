@@ -82,6 +82,7 @@ namespace Ada_Battleship.Configurations
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
+                    throw new InvalidOperationException();
 
                 }
 

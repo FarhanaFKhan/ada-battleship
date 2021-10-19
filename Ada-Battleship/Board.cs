@@ -89,9 +89,19 @@ namespace Ada_Battleship
 
         }
 
-        public void RandomlyPlaceShip(string shipName, int x, int y)
+        public int RandomlyGenerateColumnNumber()
         {
+            var rand = new Random();
+            var columnNumber = rand.Next(1, _boardWidth);
+            return columnNumber;
 
+        }
+
+        public int RandomlyGenerateRowNumber()
+        {
+            var rand = new Random();
+            var rowNumber = rand.Next(1, _boardHeight);
+            return rowNumber;
 
         }
 
