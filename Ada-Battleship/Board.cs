@@ -88,6 +88,14 @@ namespace Ada_Battleship
 
 
         }
+
+        public void RandomlyPlaceShip(string shipName, int x, int y)
+        {
+
+
+        }
+
+
         //using tuple to be able to split the move in one function
         public (char, int) SplitMove(string userInput)
         {
