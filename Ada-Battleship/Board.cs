@@ -13,7 +13,8 @@ namespace Ada_Battleship
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<char> _columnLabels = new List<char>() { 'A', 'B', 'C', 'D', 'E', 'F', 'G','H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
         private readonly List<Tile> _tiles = new List<Tile>();
-        
+        private readonly List<Ship> _fleet = Setup.Instance.ShipDetails;
+
 
         private void AddTile()
         {
@@ -61,13 +62,17 @@ namespace Ada_Battleship
         public void PlaceShip(string shipName,int x, int y)
         {
             //length and direction
-            var fleet = Setup.Instance.ShipDetails;
+            
             int shipLength = 0;
-            foreach (var ship in fleet)
+            foreach (var ship in _fleet)
             {
                 if (ship.ShipName == shipName)
                 {
                     shipLength = ship.ShipLength;
+                    ship.ShipCoordinateX = x;
+                    ship.ShipCoordinateY = y;
+                    ship.Status = ShipStatus.Placed;
+
                 }
                 
             }
@@ -80,15 +85,20 @@ namespace Ada_Battleship
                     {
                         tile.TilePlaceholder = 's';
 
+
                     }
 
                 }
                
             }
 
-
         }
 
+        public void UpdateShipStatus()
+        {
+           
+
+        }
         public int RandomlyGenerateColumnNumber()
         {
             var rand = new Random();

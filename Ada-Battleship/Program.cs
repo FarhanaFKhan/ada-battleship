@@ -14,68 +14,68 @@ namespace Ada_Battleship
             menu.MainMenu();
             
 
-            Board gameBoard = new Board();
-            gameBoard.DisplayBoard();
+            //Board gameBoard = new Board();
+            //gameBoard.DisplayBoard();
 
-            string userInput;
-            (char, int) splitMove;
-            char columnLabel;
-            int columnNumber;
-            int rowNumber;
-            int option;
-            //menu
-            Console.WriteLine("Please select Option:");
-            Console.WriteLine("1.Place ship manually");
-            Console.WriteLine("2.Randomly place ship");
-            Console.WriteLine("3. to quit.");
-            try
-            {
-                option = int.Parse(Console.ReadLine());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                throw new Exception();
-            }
+            //string userInput;
+            //(char, int) splitMove;
+            //char columnLabel;
+            //int columnNumber;
+            //int rowNumber;
+            //int option;
+            ////menu
+            //Console.WriteLine("Please select Option:");
+            //Console.WriteLine("1.Place ship manually");
+            //Console.WriteLine("2.Randomly place ship");
+            //Console.WriteLine("3. to quit.");
+            //try
+            //{
+            //    option = int.Parse(Console.ReadLine());
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //    throw new Exception();
+            //}
 
 
-            if (option == 1)
-            {
-                Console.WriteLine("Please enter a point to position a ship:");
-                userInput = Console.ReadLine();
-                Console.WriteLine(userInput);
-                //separate string
-                //convert into string and int
-                splitMove = gameBoard.SplitMove(userInput);
-                Console.WriteLine($"ColumnLabel: {splitMove.Item1}");
-                Console.WriteLine($"rowNumber: {splitMove.Item2}");
-                columnLabel = splitMove.Item1;
-                rowNumber = splitMove.Item2;
+            //if (option == 1)
+            //{
+            //    Console.WriteLine("Please enter a point to position a ship:");
+            //    userInput = Console.ReadLine();
+            //    Console.WriteLine(userInput);
+            //    //separate string
+            //    //convert into string and int
+            //    splitMove = gameBoard.SplitMove(userInput);
+            //    Console.WriteLine($"ColumnLabel: {splitMove.Item1}");
+            //    Console.WriteLine($"rowNumber: {splitMove.Item2}");
+            //    columnLabel = splitMove.Item1;
+            //    rowNumber = splitMove.Item2;
 
-                columnNumber = gameBoard.AlphabetToInt(columnLabel);
+            //    columnNumber = gameBoard.AlphabetToInt(columnLabel);
 
-                //validator for input
-                var isValid = gameBoard.ValidateMove(columnNumber, rowNumber);
+            //    //validator for input
+            //    var isValid = gameBoard.ValidateMove(columnNumber, rowNumber);
 
-                if (isValid)
-                {
-                    gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
-                    gameBoard.DisplayBoard();
-                }
-                else
-                {
-                    Console.WriteLine("Please enter a valid move");
-                }
-            }
+            //    if (isValid)
+            //    {
+            //        gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
+            //        gameBoard.DisplayBoard();
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Please enter a valid move");
+            //    }
+            //}
 
-            if (option == 2)
-            {
-                columnNumber = gameBoard.RandomlyGenerateColumnNumber();
-                rowNumber = gameBoard.RandomlyGenerateRowNumber();
-                gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
-                gameBoard.DisplayBoard();
+            //if (option == 2)
+            //{
+            //    columnNumber = gameBoard.RandomlyGenerateColumnNumber();
+            //    rowNumber = gameBoard.RandomlyGenerateRowNumber();
+            //    gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
+            //    gameBoard.DisplayBoard();
 
-            }
+            //}
 
 
 
