@@ -16,7 +16,7 @@ namespace Ada_Battleship
         private readonly List<Ship> _fleet = Setup.Instance.ShipDetails;
 
 
-        private void AddTile()
+        public void AddTile()
         {
             for (int i = 1; i <= _boardWidth; i++)
             {
@@ -30,7 +30,7 @@ namespace Ada_Battleship
         public void DisplayBoard()
         {
            // Console.Clear();
-            AddTile();
+           // AddTile();
 
             for (var i = 0; i < _boardWidth; i++)
             {
@@ -60,7 +60,6 @@ namespace Ada_Battleship
                         Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
                     }
                     
-                    //Console.Write("\t" + _tiles[j+counter].Coordinate.X + "," + _tiles[j].Coordinate.Y);
                 }
 
                 counter += _boardWidth;
@@ -69,38 +68,69 @@ namespace Ada_Battleship
 
             }
         }
-        public void PlaceShip(string shipName,int x, int y)
+
+        public int GetShipLength(string name)
         {
-            //length and direction
-            
             int shipLength = 0;
             foreach (var ship in _fleet)
             {
-                if (ship.ShipName == shipName)
+                if (ship.ShipName == name)
                 {
                     shipLength = ship.ShipLength;
+                    
+                }
+
+            }
+
+            return shipLength;
+        }
+
+        public void UpdateShipStatus(string name,int x,int y)
+        {
+            foreach (var ship in _fleet)
+            {
+                if (ship.ShipName == name)
+                {
                     ship.ShipCoordinateX = x;
                     ship.ShipCoordinateY = y;
                     ship.Status = ShipStatus.Placed;
 
                 }
-                
-            }
-            
-            foreach (var tile in _tiles)
-            {
-                for (int i = 0; i < shipLength; i++)
-                {
-                    if (tile.Coordinate.X == x && tile.Coordinate.Y == y+i)
-                    {
-                        tile.TilePlaceholder = 's';
 
+            }
+        }
+        public void PlaceShip(string shipName,int x, int y)
+        {
+            //length and direction
+
+
+            int shipLength = GetShipLength(shipName);
+
+            if (_boardWidth < shipLength + y)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Ship length is greater than board width. Try placing vertically");
+                Console.ResetColor();
+            }
+            else
+            {
+               
+                foreach (var tile in _tiles)
+                {
+                    for (int i = 0; i < shipLength; i++)
+                    {
+                        if (tile.Coordinate.X == x && tile.Coordinate.Y == y + i)
+                        {
+                            tile.TilePlaceholder = 's';
+
+                        }
 
                     }
 
                 }
-               
+                UpdateShipStatus(shipName,x,y);
             }
+            
 
         }
 
@@ -125,6 +155,7 @@ namespace Ada_Battleship
         //using tuple to be able to split the move in one function
         public (char, int) SplitMove(string userInput)
         {
+            //needs to cater for A10
             string input = userInput.Trim().ToUpper();
             var columnlabel = input[0];
             var rowNumber = input[1] - '0';

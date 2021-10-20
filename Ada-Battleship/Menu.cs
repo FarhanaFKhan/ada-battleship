@@ -26,6 +26,7 @@ namespace Ada_Battleship
 
             Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
             Console.WriteLine();
+            gameBoard.AddTile();
             gameBoard.DisplayBoard();
             Console.WriteLine();
             DisplayAvailableShips();
@@ -98,6 +99,15 @@ namespace Ada_Battleship
 
         public void PvCMenuOptionOne()
         {
+            gameBoard.DisplayBoard();
+            
+            ShipMenu();
+            Console.WriteLine();
+            var shipOption = Console.ReadLine();
+            var shipName = GetShipName(shipOption);
+
+            Console.WriteLine($"You selected {shipName}");
+            Console.WriteLine();
             Console.WriteLine("Please enter a point to position a ship:");
             var userInput = Console.ReadLine();
             Console.WriteLine(userInput);
@@ -118,7 +128,7 @@ namespace Ada_Battleship
 
             if (isValid)
             {
-                gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
+                gameBoard.PlaceShip(shipName, rowNumber, columnNumber);
                 gameBoard.DisplayBoard();
                 DisplayAvailableShips();
             }
@@ -131,6 +141,10 @@ namespace Ada_Battleship
 
         public void PvCMenuOptionTwo()
         {
+            //foreach (var ship in _shipInfo)
+            //{
+                
+            //}
             var columnNumber = gameBoard.RandomlyGenerateColumnNumber();
             var rowNumber = gameBoard.RandomlyGenerateRowNumber();
             gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
@@ -139,11 +153,67 @@ namespace Ada_Battleship
             DisplayAvailableShips();
         }
 
+        private List<Ship> GetAvailableShips()
+        {
+            var listOfAvailableShips = new List<Ship>();
+
+            for (int i = 0; i < _shipInfo.Count; i++)
+            {
+                if (_shipInfo[i].Status == ShipStatus.Pending)
+                {
+                    listOfAvailableShips.Add(_shipInfo[i]);
+                }
+            }
+
+            return listOfAvailableShips;
+        }
+        private void ShipMenu()
+        {
+            Console.WriteLine();
+            var availableShips = GetAvailableShips();
+            Console.WriteLine("Please select an available ship:");
+            for (int i = 0; i < availableShips.Count; i++)
+            {                
+                Console.WriteLine("\t" +i+"."+ availableShips[i].ShipName);
+                
+            }
+        }
+
+        private string GetShipName(string shipOption)
+        {
+            int shipNumber;
+            var availableShips = GetAvailableShips();
+            var shipName = availableShips[0].ShipName; //could be better
+
+            try
+            {
+                shipNumber = int.Parse(shipOption);
+               
+                //return shipName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw new Exception();
+            }
+
+            for (int i = 0; i < availableShips.Count; i++)
+            {
+                if (i == shipNumber)
+                { 
+                    shipName = availableShips[i].ShipName;
+                }
+            }
+
+            return shipName;
+
+        }
+
         private void DisplayAvailableShips()
         {
             Console.WriteLine();
 
-            Console.WriteLine("Available Ships:");
+            Console.WriteLine("Ships Details:");
             Console.WriteLine();
             Console.Write("\tName  \tLength  \tHealth  \tstatus");
             Console.WriteLine();
