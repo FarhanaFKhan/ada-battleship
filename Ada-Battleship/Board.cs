@@ -49,7 +49,17 @@ namespace Ada_Battleship
 
                 for (var j = 0; j < _boardWidth; j++)
                 {
-                    Console.Write("\t"+_tiles[j+counter].TilePlaceholder);
+                    if (_tiles[j + counter].TilePlaceholder == 's')
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                        Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                    }
+                    
                     //Console.Write("\t" + _tiles[j+counter].Coordinate.X + "," + _tiles[j].Coordinate.Y);
                 }
 
@@ -94,11 +104,7 @@ namespace Ada_Battleship
 
         }
 
-        public void UpdateShipStatus()
-        {
-           
-
-        }
+        
         public int RandomlyGenerateColumnNumber()
         {
             var rand = new Random();

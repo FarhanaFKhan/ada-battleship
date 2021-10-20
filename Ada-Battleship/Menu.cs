@@ -82,7 +82,7 @@ namespace Ada_Battleship
             switch (pvCMenuOption)
             {
                 case 2:
-                    Console.WriteLine("Place all ships randomly.");
+                    PvCMenuOptionTwo();
                     break;
                 case 3:
                     Console.WriteLine("Place available ships randomly.");
@@ -101,11 +101,13 @@ namespace Ada_Battleship
             Console.WriteLine("Please enter a point to position a ship:");
             var userInput = Console.ReadLine();
             Console.WriteLine(userInput);
+
             //separate string
             //convert into string and int
             var splitMove = gameBoard.SplitMove(userInput);
-            Console.WriteLine($"ColumnLabel: {splitMove.Item1}");
-            Console.WriteLine($"rowNumber: {splitMove.Item2}");
+
+            //Console.WriteLine($"ColumnLabel: {splitMove.Item1}");
+            //Console.WriteLine($"rowNumber: {splitMove.Item2}");
             var columnLabel = splitMove.Item1;
             var rowNumber = splitMove.Item2;
 
@@ -127,13 +129,25 @@ namespace Ada_Battleship
 
         }
 
+        public void PvCMenuOptionTwo()
+        {
+            var columnNumber = gameBoard.RandomlyGenerateColumnNumber();
+            var rowNumber = gameBoard.RandomlyGenerateRowNumber();
+            gameBoard.PlaceShip("Carrier", rowNumber, columnNumber);
+            gameBoard.DisplayBoard();
+            Console.WriteLine();
+            DisplayAvailableShips();
+        }
+
         private void DisplayAvailableShips()
         {
             Console.WriteLine();
+
             Console.WriteLine("Available Ships:");
             Console.WriteLine();
             Console.Write("\tName  \tLength  \tHealth  \tstatus");
             Console.WriteLine();
+
             foreach (var ship in _shipInfo)
             {
                 Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
