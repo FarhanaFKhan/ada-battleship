@@ -102,7 +102,7 @@ namespace Ada_Battleship
         public void PlaceShip(string shipName,int x, int y)
         {
             //length and direction
-
+            //how to avoid overlap of ships?
 
             int shipLength = GetShipLength(shipName);
 
@@ -133,6 +133,8 @@ namespace Ada_Battleship
             
 
         }
+
+       
 
         
         public int RandomlyGenerateColumnNumber()
