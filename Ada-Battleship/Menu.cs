@@ -59,23 +59,76 @@ namespace Ada_Battleship
 
         public void PvCMenu()
         {
+            
             var availableShips = GetAvailableShips();
-            for (int i = 1; i <= availableShips.Count; i++) //should it availableShips.count?
+            //for (int i = 1; i <= availableShips.Count; i++) //should it availableShips.count?
+            //{
+
+
+            //   // Console.Clear();
+            //    Console.WriteLine();
+            //    Console.WriteLine("You are now in PvC mode");
+            //    Console.WriteLine();
+            //    DisplayAvailableShips();
+            //    Console.WriteLine();
+            //    Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            //    Console.WriteLine("1.Place ship manually.");
+            //    Console.WriteLine("2.Place all ships randomly.");
+            //    Console.WriteLine("3.Place remaining ships randomly.");
+            //    Console.WriteLine("4.Reset board.");
+            //    Console.ResetColor();
+            //    Console.ForegroundColor = ConsoleColor.DarkRed;
+            //    Console.WriteLine("5.Quit.");
+            //    Console.ResetColor();
+
+            //    int pvCMenuOption;
+            //    try
+            //    {
+            //        pvCMenuOption = int.Parse(Console.ReadLine());
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex);
+            //        throw new InvalidOperationException();
+            //    }
+            //    switch (pvCMenuOption)
+            //    {
+            //        case 2:
+            //            PvCMenuOptionTwo();
+            //            break;
+            //        case 3:
+            //            PvCMenuOptionThree();
+            //            break;
+            //        case 4:
+            //            PvCOptionFour();
+            //            break;
+            //        case 5:
+            //            QuitGame();
+            //            break;
+            //        default:
+            //            PvCMenuOptionOne();
+            //            break;
+            //    }
+            //}
+            int pvCMenuOption;
+            do
             {
-               
-                
-               // Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
                 Console.WriteLine();
                 DisplayAvailableShips();
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("1.Place ship manually.");
                 Console.WriteLine("2.Place all ships randomly.");
                 Console.WriteLine("3.Place remaining ships randomly.");
                 Console.WriteLine("4.Reset board.");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("5.Quit.");
+                Console.ResetColor();
 
-                int pvCMenuOption;
+                
                 try
                 {
                     pvCMenuOption = int.Parse(Console.ReadLine());
@@ -103,13 +156,14 @@ namespace Ada_Battleship
                         PvCMenuOptionOne();
                         break;
                 }
-            }
+            } while (pvCMenuOption != 5);
 
 
         }
 
         public void PvCMenuOptionOne()
         {
+            //place ship manually
             gameBoard.DisplayBoard();
             var availableShips = GetAvailableShips();
 
@@ -158,7 +212,9 @@ namespace Ada_Battleship
 
         public void PvCMenuOptionTwo()
         {
-            
+            //Place all ships randomly.
+            gameBoard.ResetBoard();
+
             foreach (var ship in _shipInfo)
             {
                 var shipLength = ship.ShipLength;
@@ -285,6 +341,7 @@ namespace Ada_Battleship
 
         public void PvCMenuOptionThree()
         {
+           // Place remaining ships randomly.
             var availableShips = GetAvailableShips();
             foreach (var ship in availableShips)
             {
@@ -318,6 +375,7 @@ namespace Ada_Battleship
 
         private void PvCOptionFour()
         {
+            //reset board
            gameBoard.ResetBoard();
            Console.ForegroundColor = ConsoleColor.Green;
            Console.WriteLine("The board has been reset.");
