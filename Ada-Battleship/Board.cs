@@ -186,6 +186,27 @@ namespace Ada_Battleship
             return isValid;
         }
 
+        private void ResetShip()
+        {
+            foreach (var ship in _fleet)
+            {
+                ship.ShipCoordinateX = 0;
+                ship.ShipCoordinateY = 0;
+                ship.Status = ShipStatus.Pending;
+
+            }
+        }
+
+        public void ResetBoard()
+        {
+            ResetShip();
+            foreach (var tile in _tiles)
+            {
+                tile.TilePlaceholder = '.';
+            }
+            
+        }
+
 
     }
 }

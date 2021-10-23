@@ -62,6 +62,8 @@ namespace Ada_Battleship
             var availableShips = GetAvailableShips();
             for (int i = 1; i <= availableShips.Count; i++) //should it availableShips.count?
             {
+               
+                
                // Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
@@ -89,10 +91,13 @@ namespace Ada_Battleship
                         PvCMenuOptionTwo();
                         break;
                     case 3:
-                        Console.WriteLine("Place available ships randomly.");
+                        PvCMenuOptionThree();
                         break;
                     case 4:
-                        Console.WriteLine("Reset board.");
+                        PvCOptionFour();
+                        break;
+                    case 5:
+                        QuitGame();
                         break;
                     default:
                         PvCMenuOptionOne();
@@ -153,8 +158,8 @@ namespace Ada_Battleship
 
         public void PvCMenuOptionTwo()
         {
-            var availableShips = GetAvailableShips();
-            foreach (var ship in availableShips)
+            
+            foreach (var ship in _shipInfo)
             {
                 var shipLength = ship.ShipLength;
                 int columnNumber = 1;
@@ -176,9 +181,6 @@ namespace Ada_Battleship
                 gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber);
                 Console.WriteLine();
                 DisplayAvailableShips();
-
-
-
             }
             gameBoard.DisplayBoard();
 
@@ -277,11 +279,59 @@ namespace Ada_Battleship
                     }
                     
                 }
+            }
+            return isOverlap;
+        }
+
+        public void PvCMenuOptionThree()
+        {
+            var availableShips = GetAvailableShips();
+            foreach (var ship in availableShips)
+            {
+                var shipLength = ship.ShipLength;
+                int columnNumber = 1;
+                int rowNumber = 1;
+                var isValid = false;
+                //this block will keep generating a random number unless its a valid move
+                while (isValid == false)
+                {
+                    columnNumber = gameBoard.RandomlyGenerateColumnNumber();
+                    rowNumber = gameBoard.RandomlyGenerateRowNumber();
+                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
+                    if (_boardWidth > columnNumber + shipLength && !isOverlap)
+                    {
+                        isValid = true;
+                    }
+
+                }
+
+                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber);
+                Console.WriteLine();
+                DisplayAvailableShips();
+
 
 
             }
+            gameBoard.DisplayBoard();
 
-            return isOverlap;
+        }
+
+        private void PvCOptionFour()
+        {
+           gameBoard.ResetBoard();
+           Console.ForegroundColor = ConsoleColor.Green;
+           Console.WriteLine("The board has been reset.");
+           Console.ResetColor();
+           Console.WriteLine();
+           gameBoard.DisplayBoard();
+        }
+
+        private void QuitGame()
+        { 
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("You quit game!");
+            Console.ResetColor();
+
         }
 
     }

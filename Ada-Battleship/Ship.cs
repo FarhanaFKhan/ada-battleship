@@ -16,6 +16,6 @@
             Health = shipLength;
             Status = ShipStatus.Pending;
         }
-
+        
     }
 }
