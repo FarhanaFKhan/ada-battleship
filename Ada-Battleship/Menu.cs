@@ -7,7 +7,7 @@ namespace Ada_Battleship
     {
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
-        private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails; //make sure this is directly not used. can be handled in player class
+        //private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails; //make sure this is directly not used. can be handled in player class
         //private readonly Board _gameBoard = new Board();
         private readonly  Player _player1 = new Player();
         private readonly Player _player2 = new Player();
@@ -140,7 +140,7 @@ namespace Ada_Battleship
         public void PvCMenuOptionOne()
         {
             //place ship manually
-            // _gameBoard.DisplayBoard();
+            
             _player1.GameBoard.DisplayBoard();
             var availableShips = GetAvailableShips();
 
@@ -193,7 +193,7 @@ namespace Ada_Battleship
             //Place all ships randomly.
             _player1.GameBoard.ResetBoard();
 
-            foreach (var ship in _shipInfo)
+            foreach (var ship in _player1.PlayerFleet)
             {
                 var shipLength = ship.ShipLength;
                 var isValid = false;
@@ -225,11 +225,11 @@ namespace Ada_Battleship
         {
             var listOfAvailableShips = new List<Ship>();
 
-            for (int i = 0; i < _shipInfo.Count; i++)
+            for (int i = 0; i < _player1.PlayerFleet.Count; i++)
             {
-                if (_shipInfo[i].Status == ShipStatus.Pending)
+                if (_player1.PlayerFleet[i].Status == ShipStatus.Pending)
                 {
-                    listOfAvailableShips.Add(_shipInfo[i]);
+                    listOfAvailableShips.Add(_player1.PlayerFleet[i]);
                 }
             }
 
@@ -285,7 +285,7 @@ namespace Ada_Battleship
             Console.Write("\tName  \tLength  \tHealth  \tstatus");
             Console.WriteLine();
 
-            foreach (var ship in _shipInfo)
+            foreach (var ship in _player1.PlayerFleet)
             {
                 Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
             }
@@ -298,7 +298,7 @@ namespace Ada_Battleship
         public bool CheckForShipOverlap(int x, int y)
         {
             var isOverlap = false;
-            foreach (var ship in _shipInfo)
+            foreach (var ship in _player1.PlayerFleet)
             {
                 if (ship.ShipCoordinateX == x && ship.ShipCoordinateY == y)
                 {
@@ -381,11 +381,10 @@ namespace Ada_Battleship
 
         public void CompBoardSetup()
         {
-            var compGameBoard = new Board();
-            compGameBoard.AddTile();
-            var compShotBoard = new Board();
-            compShotBoard.AddTile();
-            var compShips = Setup.Instance.ShipDetails;
+            var compGameBoard = _player2.GameBoard;
+            var compShips = _player2.PlayerFleet;
+            _player2.Name = "Eva";
+            
 
             foreach (var ship in compShips)
             {
