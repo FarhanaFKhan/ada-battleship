@@ -170,24 +170,25 @@ namespace Ada_Battleship
             foreach (var ship in _shipInfo)
             {
                 var shipLength = ship.ShipLength;
-                int columnNumber = 1;
-                int rowNumber = 1;
                 var isValid = false;
-                var orientation = 'H';
+                
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                    columnNumber = _gameBoard.RandomlyGenerateColumnNumber();
-                    rowNumber = _gameBoard.RandomlyGenerateRowNumber();
+                    var columnNumber = _gameBoard.RandomlyGenerateColumnNumber();
+                    var rowNumber = _gameBoard.RandomlyGenerateRowNumber();
+                    var orientation = _menuServices.ToggleOrientation();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
-                    if (_boardWidth > columnNumber + shipLength && !isOverlap)
+                    if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
                     {
+                        _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
                         isValid = true;
+                        
                     }
 
                 }
 
-                _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber,orientation);
+                
                 Console.WriteLine();
                 DisplayAvailableShips();
             }
@@ -319,8 +320,9 @@ namespace Ada_Battleship
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
                     {
-                        isValid = true;
                         _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
+                        isValid = true;
+                        
                     }
 
                 }
