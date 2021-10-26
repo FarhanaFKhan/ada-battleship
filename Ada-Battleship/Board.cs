@@ -166,16 +166,7 @@ namespace Ada_Battleship
         }
 
 
-        //using tuple to be able to split the move in one function
-        public (char, int) SplitMove(string userInput)
-        {
-            //needs to cater for A10
-            string input = userInput.Trim().ToUpper();
-            var columnlabel = input[0];
-            var rowNumber = input[1] - '0';
-
-            return (columnlabel, rowNumber);
-        }
+        
 
         public int AlphabetToInt(char columnLabel)
         {

@@ -5,6 +5,7 @@ namespace Ada_Battleship
 {
     public class BoardServices
     {
+        //using tuple to be able to split the move in one function
         public (char, int,char) SplitMove(string userInput)
         {
             //needs to cater for A10
@@ -26,7 +27,6 @@ namespace Ada_Battleship
             {
                 orientation = 'V';
             }
-            
             
 
             return (columnLabel, rowNumber, orientation);
