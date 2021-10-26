@@ -8,9 +8,9 @@ namespace Ada_Battleship
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails;
-        private readonly Board gameBoard = new Board();
-        private readonly BoardServices boardServices = new BoardServices();
-
+        private readonly Board _gameBoard = new Board();
+        private readonly BoardServices _boardServices = new BoardServices();
+        private readonly MenuServices _menuServices = new MenuServices();
         string playerName;
         private int _mainOption;
 
@@ -27,8 +27,8 @@ namespace Ada_Battleship
 
             Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
             Console.WriteLine();
-            gameBoard.AddTile();
-            gameBoard.DisplayBoard();
+            _gameBoard.AddTile();
+            _gameBoard.DisplayBoard();
             Console.WriteLine();
             DisplayAvailableShips();
             Console.WriteLine();
@@ -115,7 +115,7 @@ namespace Ada_Battleship
         public void PvCMenuOptionOne()
         {
             //place ship manually
-            gameBoard.DisplayBoard();
+            _gameBoard.DisplayBoard();
             var availableShips = GetAvailableShips();
 
 
@@ -136,20 +136,20 @@ namespace Ada_Battleship
             //separate string
             //convert into string and int
             //var splitMove = gameBoard.SplitMove(userInput);
-            var splitMove = boardServices.SplitMove(userInput);
+            var splitMove = _boardServices.SplitMove(userInput);
 
             var columnLabel = splitMove.Item1;
             var rowNumber = splitMove.Item2;
             var orientation = splitMove.Item3;
-            var columnNumber = gameBoard.AlphabetToInt(columnLabel);
+            var columnNumber = _gameBoard.AlphabetToInt(columnLabel);
 
             //validator for input
-            var isValid = gameBoard.ValidateMove(columnNumber, rowNumber);
+            var isValid = _gameBoard.ValidateMove(columnNumber, rowNumber);
             var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
             if (isValid && !isOverlap)
             {
-                gameBoard.PlaceShip(shipName, rowNumber, columnNumber,orientation);
-                gameBoard.DisplayBoard();
+                _gameBoard.PlaceShip(shipName, rowNumber, columnNumber,orientation);
+                _gameBoard.DisplayBoard();
                 DisplayAvailableShips();
             }
             else
@@ -165,7 +165,7 @@ namespace Ada_Battleship
         public void PvCMenuOptionTwo()
         {
             //Place all ships randomly.
-            gameBoard.ResetBoard();
+            _gameBoard.ResetBoard();
 
             foreach (var ship in _shipInfo)
             {
@@ -177,8 +177,8 @@ namespace Ada_Battleship
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                    columnNumber = gameBoard.RandomlyGenerateColumnNumber();
-                    rowNumber = gameBoard.RandomlyGenerateRowNumber();
+                    columnNumber = _gameBoard.RandomlyGenerateColumnNumber();
+                    rowNumber = _gameBoard.RandomlyGenerateRowNumber();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
                     if (_boardWidth > columnNumber + shipLength && !isOverlap)
                     {
@@ -187,11 +187,11 @@ namespace Ada_Battleship
 
                 }
 
-                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber,orientation);
+                _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber,orientation);
                 Console.WriteLine();
                 DisplayAvailableShips();
             }
-            gameBoard.DisplayBoard();
+            _gameBoard.DisplayBoard();
 
         }
         //needs to be extracted to another class
@@ -287,6 +287,14 @@ namespace Ada_Battleship
                     }
                     
                 }
+                if (ship.ShipCoordinateY == y)
+                {
+                    if (x > 1 && x <= (ship.ShipCoordinateX + ship.ShipLength))
+                    {
+                        isOverlap = true;
+                    }
+
+                }
 
             }
             return isOverlap;
@@ -299,43 +307,41 @@ namespace Ada_Battleship
             foreach (var ship in availableShips)
             {
                 var shipLength = ship.ShipLength;
-                int columnNumber = 1;
-                int rowNumber = 1;
                 var isValid = false;
-                var orientation = 'H';
+                
+
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                    columnNumber = gameBoard.RandomlyGenerateColumnNumber();
-                    rowNumber = gameBoard.RandomlyGenerateRowNumber();
+                   var columnNumber = _gameBoard.RandomlyGenerateColumnNumber();
+                   var rowNumber = _gameBoard.RandomlyGenerateRowNumber();
+                   var orientation = _menuServices.ToggleOrientation();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
-                    if (_boardWidth > columnNumber + shipLength && !isOverlap)
+                    if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
                     {
                         isValid = true;
+                        _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
                     }
 
                 }
 
-                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber,orientation);
                 Console.WriteLine();
                 DisplayAvailableShips();
 
-
-
             }
-            gameBoard.DisplayBoard();
+            _gameBoard.DisplayBoard();
 
         }
 
         private void PvCOptionFour()
         {
             //reset board
-           gameBoard.ResetBoard();
+           _gameBoard.ResetBoard();
            Console.ForegroundColor = ConsoleColor.Green;
            Console.WriteLine("The board has been reset.");
            Console.ResetColor();
            Console.WriteLine();
-           gameBoard.DisplayBoard();
+           _gameBoard.DisplayBoard();
         }
 
         private void QuitGame()
