@@ -13,6 +13,10 @@ namespace Ada_Battleship
             return orientation;
         }
 
-        
+        public void PlayerShootTorpedo()
+        {
+            Console.WriteLine();
+
+        }
     }
 }

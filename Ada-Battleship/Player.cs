@@ -1,10 +1,22 @@
-﻿namespace Ada_Battleship
+﻿using System.Collections.Generic;
+using Ada_Battleship.Configurations;
+
+namespace Ada_Battleship
 {
     public class Player
     {
-        public string Name;
+        public string Name { get; set; }
         public int State;
-        private readonly Board _gameBoard = new Board();
-        private readonly Board _shotBoard = new Board();
+        public Board GameBoard = new Board();
+        public Board ShotBoard = new Board();
+        public List<Ship> PlayerFleet = Setup.Instance.ShipDetails;
+        //score?
+
+        public Player()
+        {
+            State = 0;
+            GameBoard.AddTile();
+            ShotBoard.AddTile();
+        }
     }
 }
