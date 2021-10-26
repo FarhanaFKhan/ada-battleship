@@ -57,7 +57,8 @@ namespace Ada_Battleship
                     else
                     {
                         Console.ResetColor();
-                        Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                        //Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                        Console.Write("\t" + _tiles[j + counter].Coordinate.X );
                     }
                     
                 }
@@ -99,31 +100,42 @@ namespace Ada_Battleship
 
             }
         }
-        public void PlaceShip(string shipName,int x, int y)
+        public void PlaceShip(string shipName,int x, int y,char orientation)
         {
             //length and direction
-            //how to avoid overlap of ships?
 
             int shipLength = GetShipLength(shipName);
 
-            if (_boardWidth < shipLength + y)
+            if (_boardWidth < shipLength + y || _boardHeight < shipLength + x)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Ship length is greater than board width. Try placing vertically");
+                Console.WriteLine("Ship length is greater than board width.");
                 Console.ResetColor();
             }
             else
             {
-               
+
                 foreach (var tile in _tiles)
                 {
                     for (int i = 0; i < shipLength; i++)
                     {
-                        if (tile.Coordinate.X == x && tile.Coordinate.Y == y + i)
+                        if (orientation == 'H')
                         {
-                            tile.TilePlaceholder = 's';
+                            if (tile.Coordinate.X == x && tile.Coordinate.Y == y + i)
+                            {
+                                tile.TilePlaceholder = 's';
 
+                            }
                         }
+                        if(orientation == 'V')
+                        {
+                            if ( tile.Coordinate.X == x + i && tile.Coordinate.Y == y )
+                            {
+                                tile.TilePlaceholder = 's';
+
+                            }
+                        }
+                        
 
                     }
 

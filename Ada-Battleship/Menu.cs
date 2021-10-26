@@ -9,6 +9,7 @@ namespace Ada_Battleship
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails;
         private readonly Board gameBoard = new Board();
+        private readonly BoardServices boardServices = new BoardServices();
 
         string playerName;
         private int _mainOption;
@@ -60,56 +61,6 @@ namespace Ada_Battleship
         public void PvCMenu()
         {
             
-            var availableShips = GetAvailableShips();
-            //for (int i = 1; i <= availableShips.Count; i++) //should it availableShips.count?
-            //{
-
-
-            //   // Console.Clear();
-            //    Console.WriteLine();
-            //    Console.WriteLine("You are now in PvC mode");
-            //    Console.WriteLine();
-            //    DisplayAvailableShips();
-            //    Console.WriteLine();
-            //    Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            //    Console.WriteLine("1.Place ship manually.");
-            //    Console.WriteLine("2.Place all ships randomly.");
-            //    Console.WriteLine("3.Place remaining ships randomly.");
-            //    Console.WriteLine("4.Reset board.");
-            //    Console.ResetColor();
-            //    Console.ForegroundColor = ConsoleColor.DarkRed;
-            //    Console.WriteLine("5.Quit.");
-            //    Console.ResetColor();
-
-            //    int pvCMenuOption;
-            //    try
-            //    {
-            //        pvCMenuOption = int.Parse(Console.ReadLine());
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Console.WriteLine(ex);
-            //        throw new InvalidOperationException();
-            //    }
-            //    switch (pvCMenuOption)
-            //    {
-            //        case 2:
-            //            PvCMenuOptionTwo();
-            //            break;
-            //        case 3:
-            //            PvCMenuOptionThree();
-            //            break;
-            //        case 4:
-            //            PvCOptionFour();
-            //            break;
-            //        case 5:
-            //            QuitGame();
-            //            break;
-            //        default:
-            //            PvCMenuOptionOne();
-            //            break;
-            //    }
-            //}
             int pvCMenuOption;
             do
             {
@@ -184,11 +135,12 @@ namespace Ada_Battleship
 
             //separate string
             //convert into string and int
-            var splitMove = gameBoard.SplitMove(userInput);
+            //var splitMove = gameBoard.SplitMove(userInput);
+            var splitMove = boardServices.SplitMove(userInput);
 
             var columnLabel = splitMove.Item1;
             var rowNumber = splitMove.Item2;
-
+            var orientation = splitMove.Item3;
             var columnNumber = gameBoard.AlphabetToInt(columnLabel);
 
             //validator for input
@@ -196,7 +148,7 @@ namespace Ada_Battleship
             var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
             if (isValid && !isOverlap)
             {
-                gameBoard.PlaceShip(shipName, rowNumber, columnNumber);
+                gameBoard.PlaceShip(shipName, rowNumber, columnNumber,orientation);
                 gameBoard.DisplayBoard();
                 DisplayAvailableShips();
             }
@@ -221,6 +173,7 @@ namespace Ada_Battleship
                 int columnNumber = 1;
                 int rowNumber = 1;
                 var isValid = false;
+                var orientation = 'H';
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
@@ -234,7 +187,7 @@ namespace Ada_Battleship
 
                 }
 
-                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber);
+                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber,orientation);
                 Console.WriteLine();
                 DisplayAvailableShips();
             }
@@ -278,7 +231,6 @@ namespace Ada_Battleship
             {
                 shipNumber = int.Parse(shipOption);
 
-                //return shipName;
             }
             catch (Exception ex)
             {
@@ -335,6 +287,7 @@ namespace Ada_Battleship
                     }
                     
                 }
+
             }
             return isOverlap;
         }
@@ -349,6 +302,7 @@ namespace Ada_Battleship
                 int columnNumber = 1;
                 int rowNumber = 1;
                 var isValid = false;
+                var orientation = 'H';
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
@@ -362,7 +316,7 @@ namespace Ada_Battleship
 
                 }
 
-                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber);
+                gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber,orientation);
                 Console.WriteLine();
                 DisplayAvailableShips();
 
