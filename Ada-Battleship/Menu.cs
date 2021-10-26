@@ -11,7 +11,7 @@ namespace Ada_Battleship
         private readonly Board _gameBoard = new Board();
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly MenuServices _menuServices = new MenuServices();
-        string playerName;
+        string _playerName;
         private int _mainOption;
 
 
@@ -20,9 +20,9 @@ namespace Ada_Battleship
 
             //this will be stored in player class
             Console.WriteLine("Please enter your name:");
-            playerName = Console.ReadLine();
+            _playerName = Console.ReadLine();
 
-            Console.WriteLine($"Greetings {playerName}! You have the following settings:");
+            Console.WriteLine($"Greetings {_playerName}! You have the following settings:");
             Console.WriteLine();
 
             Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
@@ -60,10 +60,28 @@ namespace Ada_Battleship
 
         public void PvCMenu()
         {
-            
+
             int pvCMenuOption;
+
             do
             {
+                var availableShips = GetAvailableShips();
+                if (availableShips.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("You have placed all of your ships. Hit enter to continue");
+                    Console.ResetColor();
+                    var input = "";
+                    input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        break;
+                    }
+                }
+
+
+
+
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
                 Console.WriteLine();
@@ -79,9 +97,9 @@ namespace Ada_Battleship
                 Console.WriteLine("5.Quit.");
                 Console.ResetColor();
 
-                
                 try
                 {
+
                     pvCMenuOption = int.Parse(Console.ReadLine());
                 }
                 catch (Exception ex)
@@ -89,6 +107,7 @@ namespace Ada_Battleship
                     Console.WriteLine(ex);
                     throw new InvalidOperationException();
                 }
+
                 switch (pvCMenuOption)
                 {
                     case 2:
@@ -107,6 +126,7 @@ namespace Ada_Battleship
                         PvCMenuOptionOne();
                         break;
                 }
+
             } while (pvCMenuOption != 5);
 
 
@@ -135,7 +155,7 @@ namespace Ada_Battleship
 
             //separate string
             //convert into string and int
-            //var splitMove = gameBoard.SplitMove(userInput);
+            
             var splitMove = _boardServices.SplitMove(userInput);
 
             var columnLabel = splitMove.Item1;
@@ -148,7 +168,7 @@ namespace Ada_Battleship
             var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
             if (isValid && !isOverlap)
             {
-                _gameBoard.PlaceShip(shipName, rowNumber, columnNumber,orientation);
+                _gameBoard.PlaceShip(shipName, rowNumber, columnNumber, orientation);
                 _gameBoard.DisplayBoard();
                 DisplayAvailableShips();
             }
@@ -171,7 +191,7 @@ namespace Ada_Battleship
             {
                 var shipLength = ship.ShipLength;
                 var isValid = false;
-                
+
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
@@ -183,12 +203,11 @@ namespace Ada_Battleship
                     {
                         _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
                         isValid = true;
-                        
+
                     }
 
                 }
 
-                
                 Console.WriteLine();
                 DisplayAvailableShips();
             }
@@ -286,7 +305,7 @@ namespace Ada_Battleship
                     {
                         isOverlap = true;
                     }
-                    
+
                 }
                 if (ship.ShipCoordinateY == y)
                 {
@@ -303,26 +322,26 @@ namespace Ada_Battleship
 
         public void PvCMenuOptionThree()
         {
-           // Place remaining ships randomly.
+            // Place remaining ships randomly.
             var availableShips = GetAvailableShips();
             foreach (var ship in availableShips)
             {
                 var shipLength = ship.ShipLength;
                 var isValid = false;
-                
+
 
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                   var columnNumber = _gameBoard.RandomlyGenerateColumnNumber();
-                   var rowNumber = _gameBoard.RandomlyGenerateRowNumber();
-                   var orientation = _menuServices.ToggleOrientation();
+                    var columnNumber = _gameBoard.RandomlyGenerateColumnNumber();
+                    var rowNumber = _gameBoard.RandomlyGenerateRowNumber();
+                    var orientation = _menuServices.ToggleOrientation();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
                     {
                         _gameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
                         isValid = true;
-                        
+
                     }
 
                 }
@@ -338,16 +357,16 @@ namespace Ada_Battleship
         private void PvCOptionFour()
         {
             //reset board
-           _gameBoard.ResetBoard();
-           Console.ForegroundColor = ConsoleColor.Green;
-           Console.WriteLine("The board has been reset.");
-           Console.ResetColor();
-           Console.WriteLine();
-           _gameBoard.DisplayBoard();
+            _gameBoard.ResetBoard();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("The board has been reset.");
+            Console.ResetColor();
+            Console.WriteLine();
+            _gameBoard.DisplayBoard();
         }
 
         private void QuitGame()
-        { 
+        {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("You quit game!");
             Console.ResetColor();
