@@ -5,6 +5,7 @@ namespace Ada_Battleship
 {
     public class BoardServices
     {
+        //to place the ship
         //using tuple to be able to split the move in one function
         public (char, int,char) SplitMove(string userInput)
         {
@@ -30,6 +31,13 @@ namespace Ada_Battleship
             
 
             return (columnLabel, rowNumber, orientation);
+        }
+
+
+        public int AlphabetToInt(char columnLabel)
+        {
+            int alphabetToNum = columnLabel - 64;
+            return alphabetToNum;
         }
     }
 }

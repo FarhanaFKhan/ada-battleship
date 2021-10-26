@@ -166,13 +166,6 @@ namespace Ada_Battleship
         }
 
 
-        
-
-        public int AlphabetToInt(char columnLabel)
-        {
-            int alphabetToNum = columnLabel - 64;
-            return alphabetToNum;
-        }
 
         public bool ValidateMove(int columnNumber, int rowNumber)
         {

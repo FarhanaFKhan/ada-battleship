@@ -9,7 +9,7 @@ namespace Ada_Battleship
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         //private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails; //make sure this is directly not used. can be handled in player class
         //private readonly Board _gameBoard = new Board();
-        private readonly  Player _player1 = new Player();
+        private readonly Player _player1 = new Player();
         private readonly Player _player2 = new Player();
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly MenuServices _menuServices = new MenuServices();
@@ -81,7 +81,7 @@ namespace Ada_Battleship
                         break;
                     }
                 }
-                
+
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
                 Console.WriteLine();
@@ -133,14 +133,60 @@ namespace Ada_Battleship
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Comp's turn to place ships.");
             Console.ResetColor();
+
             CompBoardSetup();
+
+            var listOfPlayerOnePlacedShips = GetPlacedShips(_player1);
+            var listOfPlayerTwoPlacedShips = GetPlacedShips(_player2);
+
+
+
+            while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0)
+            {
+                if (listOfPlayerOnePlacedShips.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine($"Congratulations! Player 2 ({_player2.Name}) won! ");
+                    Console.ResetColor();
+                    break;
+                }
+                if (listOfPlayerTwoPlacedShips.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine($"Congratulations! Player 1 ({_player1.Name}) won! ");
+                    Console.ResetColor();
+                    break;
+                }
+                //this needs to be a method
+                Console.WriteLine($"{_player1.Name} - Please enter coordinates(e.g A2):");
+                var userInput = Console.ReadLine();
+                Console.WriteLine(userInput);
+                var splitMove = _boardServices.SplitMove(userInput);
+                var columnLabel = splitMove.Item1;
+                var rowNumber = splitMove.Item2;
+                var columnNumber = _boardServices.AlphabetToInt(columnLabel);
+                var isValid = _player1.ShotBoard.ValidateMove(columnNumber, rowNumber);
+                if (isValid)
+                {
+                    ShootTorpedo(rowNumber,columnNumber);
+                    _player1.ShotBoard.DisplayBoard();
+                    DisplayAvailableShips();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Please enter a valid move");
+                    Console.ResetColor();
+                }
+
+            }
 
         }
 
         public void PvCMenuOptionOne()
         {
             //place ship manually
-            
+
             _player1.GameBoard.DisplayBoard();
             var availableShips = GetAvailableShips();
 
@@ -161,13 +207,13 @@ namespace Ada_Battleship
 
             //separate string
             //convert into string and int
-            
+
             var splitMove = _boardServices.SplitMove(userInput);
 
             var columnLabel = splitMove.Item1;
             var rowNumber = splitMove.Item2;
             var orientation = splitMove.Item3;
-            var columnNumber = _player1.GameBoard.AlphabetToInt(columnLabel);
+            var columnNumber = _boardServices.AlphabetToInt(columnLabel);
 
             //validator for input
             var isValid = _player1.GameBoard.ValidateMove(columnNumber, rowNumber);
@@ -188,7 +234,7 @@ namespace Ada_Battleship
 
         }
 
-        public void PvCMenuOptionTwo() //maybe send in player?
+        public void PvCMenuOptionTwo() //maybe send in player instance?
         {
             //Place all ships randomly.
             _player1.GameBoard.ResetBoard();
@@ -384,7 +430,7 @@ namespace Ada_Battleship
             var compGameBoard = _player2.GameBoard;
             var compShips = _player2.PlayerFleet;
             _player2.Name = "Eva";
-            
+
 
             foreach (var ship in compShips)
             {
@@ -415,6 +461,31 @@ namespace Ada_Battleship
             Console.ResetColor();
             //Console.WriteLine("Comp's shot board.");
             //compShotBoard.DisplayBoard();
+        }
+
+        private List<Ship> GetPlacedShips(Player player)
+        {
+            var listOfPlacedShips = new List<Ship>();
+
+            for (int i = 0; i < player.PlayerFleet.Count; i++)
+            {
+                if (player.PlayerFleet[i].Status == ShipStatus.Placed)
+                {
+                    listOfPlacedShips.Add(player.PlayerFleet[i]);
+                }
+            }
+
+            return listOfPlacedShips;
+        }
+
+        public void ShootTorpedo(int x, int y)
+        {
+
+            Console.WriteLine("get opponent's fleet");
+            Console.WriteLine("check if a tile has x,y coordinates AND status 'placed' ");
+            Console.WriteLine("change status to hit if placeholder is 's' otherwise miss");
+
+
         }
     }
 }

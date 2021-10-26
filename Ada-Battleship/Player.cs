@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ada_Battleship.Configurations;
 
 namespace Ada_Battleship
@@ -18,5 +19,6 @@ namespace Ada_Battleship
             GameBoard.AddTile();
             ShotBoard.AddTile();
         }
+        
     }
 }
