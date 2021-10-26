@@ -57,8 +57,8 @@ namespace Ada_Battleship
                     else
                     {
                         Console.ResetColor();
-                        //Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
-                        Console.Write("\t" + _tiles[j + counter].Coordinate.X );
+                        Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                        //Console.Write("\t" + _tiles[j + counter].Coordinate.X );
                     }
                     
                 }

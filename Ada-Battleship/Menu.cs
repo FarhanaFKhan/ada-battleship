@@ -7,7 +7,7 @@ namespace Ada_Battleship
     {
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
-        private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails;
+        private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails; //make sure this is directly not used. can be handled in player class
         private readonly Board _gameBoard = new Board();
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly MenuServices _menuServices = new MenuServices();
@@ -78,10 +78,7 @@ namespace Ada_Battleship
                         break;
                     }
                 }
-
-
-
-
+                
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
                 Console.WriteLine();
@@ -129,6 +126,11 @@ namespace Ada_Battleship
 
             } while (pvCMenuOption != 5);
 
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Comp's turn to place ships.");
+            Console.ResetColor();
+            CompBoardSetup();
 
         }
 
@@ -182,7 +184,7 @@ namespace Ada_Battleship
 
         }
 
-        public void PvCMenuOptionTwo()
+        public void PvCMenuOptionTwo() //maybe send in player?
         {
             //Place all ships randomly.
             _gameBoard.ResetBoard();
@@ -373,5 +375,43 @@ namespace Ada_Battleship
 
         }
 
+        public void CompBoardSetup()
+        {
+            var compGameBoard = new Board();
+            compGameBoard.AddTile();
+            var compShotBoard = new Board();
+            compShotBoard.AddTile();
+            var compShips = Setup.Instance.ShipDetails;
+
+            foreach (var ship in compShips)
+            {
+                var shipLength = ship.ShipLength;
+                var isValid = false;
+
+                //this block will keep generating a random number unless its a valid move
+                while (isValid == false)
+                {
+                    var columnNumber = compGameBoard.RandomlyGenerateColumnNumber();
+                    var rowNumber = compGameBoard.RandomlyGenerateRowNumber();
+                    var orientation = _menuServices.ToggleOrientation();
+                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
+                    if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) &&
+                        !isOverlap)
+                    {
+                        compGameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
+                        isValid = true;
+
+                    }
+
+                }
+            }
+            //compGameBoard.DisplayBoard();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Ships placed on Comp's game board.");
+            Console.ResetColor();
+            //Console.WriteLine("Comp's shot board.");
+            //compShotBoard.DisplayBoard();
+        }
     }
 }

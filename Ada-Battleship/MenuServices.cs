@@ -12,5 +12,7 @@ namespace Ada_Battleship
 
             return orientation;
         }
+
+        
     }
 }
