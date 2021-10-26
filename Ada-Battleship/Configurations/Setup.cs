@@ -22,7 +22,7 @@ namespace Ada_Battleship.Configurations
         private string _shipName;
         private int _shipLength;
 
-        public List<ShipConfig> ShipDetails = new List<ShipConfig>();
+        public List<Ship> ShipDetails = new List<Ship>();
 
 
         public static Setup Instance
@@ -72,7 +72,7 @@ namespace Ada_Battleship.Configurations
                         {
                             _shipName = shipInformation[0];
                             _shipLength = int.Parse(shipInformation[1]);
-                            ShipDetails.Add(new ShipConfig() { ShipName = _shipName, ShipLength = _shipLength });
+                            ShipDetails.Add(new Ship(_shipName,_shipLength));
 
                         }
 
@@ -82,6 +82,7 @@ namespace Ada_Battleship.Configurations
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
+                    throw new InvalidOperationException();
 
                 }
 
