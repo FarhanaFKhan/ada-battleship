@@ -12,7 +12,7 @@ namespace Ada_Battleship
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<char> _columnLabels = new List<char>() { 'A', 'B', 'C', 'D', 'E', 'F', 'G','H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-        private readonly List<Tile> _tiles = new List<Tile>();
+        public readonly List<Tile> Tiles = new List<Tile>();
         private readonly List<Ship> _fleet = Setup.Instance.ShipDetails;
 
 
@@ -22,7 +22,7 @@ namespace Ada_Battleship
             {
                 for (int j = 1; j <= _boardHeight; j++)
                 {
-                    _tiles.Add(new Tile(i, j));
+                    Tiles.Add(new Tile(i, j));
                 }
 
             }
@@ -49,15 +49,15 @@ namespace Ada_Battleship
 
                 for (var j = 0; j < _boardWidth; j++)
                 {
-                    if (_tiles[j + counter].TilePlaceholder == 's')
+                    if (Tiles[j + counter].TilePlaceholder == 's')
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
-                        Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                        Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
                     }
                     else
                     {
                         Console.ResetColor();
-                        Console.Write("\t" + _tiles[j + counter].TilePlaceholder);
+                        Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
                         //Console.Write("\t" + _tiles[j + counter].Coordinate.X );
                     }
                     
@@ -115,7 +115,7 @@ namespace Ada_Battleship
             else
             {
 
-                foreach (var tile in _tiles)
+                foreach (var tile in Tiles)
                 {
                     for (int i = 0; i < shipLength; i++)
                     {
@@ -171,7 +171,7 @@ namespace Ada_Battleship
         {
             var isValid = false;
 
-            foreach (var tile in _tiles)
+            foreach (var tile in Tiles)
             {
                 if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber)
                 {
@@ -196,7 +196,7 @@ namespace Ada_Battleship
         public void ResetBoard()
         {
             ResetShip();
-            foreach (var tile in _tiles)
+            foreach (var tile in Tiles)
             {
                 tile.TilePlaceholder = '.';
             }

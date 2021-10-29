@@ -13,6 +13,7 @@ namespace Ada_Battleship
         private readonly Player _player2 = new Player();
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly MenuServices _menuServices = new MenuServices();
+        private readonly PlayerServices _playerServices = new PlayerServices();
 
         private string _playerName;
         private int _mainOption;
@@ -168,7 +169,7 @@ namespace Ada_Battleship
                 var isValid = _player1.ShotBoard.ValidateMove(columnNumber, rowNumber);
                 if (isValid)
                 {
-                    ShootTorpedo(rowNumber,columnNumber);
+                    _playerServices.ShootTorpedo(rowNumber,columnNumber,_player1,_player2);
                     _player1.ShotBoard.DisplayBoard();
                     DisplayAvailableShips();
                 }
@@ -454,7 +455,7 @@ namespace Ada_Battleship
 
                 }
             }
-            //compGameBoard.DisplayBoard();
+            compGameBoard.DisplayBoard();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Ships placed on Comp's game board.");
@@ -478,14 +479,14 @@ namespace Ada_Battleship
             return listOfPlacedShips;
         }
 
-        public void ShootTorpedo(int x, int y)
-        {
+        //public void ShootTorpedo(int x, int y)
+        //{
 
-            Console.WriteLine("get opponent's fleet");
-            Console.WriteLine("check if a tile has x,y coordinates AND status 'placed' ");
-            Console.WriteLine("change status to hit if placeholder is 's' otherwise miss");
+        //    Console.WriteLine("get opponent's fleet");
+        //    Console.WriteLine("check if a tile has x,y coordinates AND status 'placed' ");
+        //    Console.WriteLine("change status to hit if placeholder is 's' otherwise miss");
 
 
-        }
+        //}
     }
 }
