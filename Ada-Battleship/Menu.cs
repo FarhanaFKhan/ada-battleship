@@ -342,37 +342,68 @@ namespace Ada_Battleship
         //if the coordX = x && coordY == y (return true) meaning there is an overlap
         //if the columnNumber is a point on the ship
 
+        //public bool CheckForShipOverlap(int x, int y)
+        //{
+        //    var isOverlap = false;
+        //    foreach (var ship in _player1.PlayerFleet)
+        //    {
+        //        if (ship.ShipCoordinateX == x && ship.ShipCoordinateY == y)
+        //        {
+        //            isOverlap = true; //there is overlap
+        //        }
+
+        //        if (ship.ShipCoordinateX == x)
+        //        {
+        //            if (y > 1 && y <= (ship.ShipCoordinateY + ship.ShipLength))
+        //            {
+        //                isOverlap = true;
+        //            }
+
+        //        }
+        //        if (ship.ShipCoordinateY == y)
+        //        {
+        //            if (x > 1 && x <= (ship.ShipCoordinateX + ship.ShipLength))
+        //            {
+        //                isOverlap = true;
+        //            }
+
+        //        }
+
+        //    }
+        //    return isOverlap;
+        //}
         public bool CheckForShipOverlap(int x, int y)
         {
             var isOverlap = false;
             foreach (var ship in _player1.PlayerFleet)
             {
-                if (ship.ShipCoordinateX == x && ship.ShipCoordinateY == y)
+                foreach (var coordinate in ship.ShipCoordinate)
                 {
-                    isOverlap = true; //there is overlap
-                }
-
-                if (ship.ShipCoordinateX == x)
-                {
-                    if (y > 1 && y <= (ship.ShipCoordinateY + ship.ShipLength))
+                    if (coordinate.X == x && coordinate.Y == y)
                     {
-                        isOverlap = true;
+                        isOverlap = true; //there is overlap
                     }
+                    //if (coordinate.X == x)
+                    //{
+                    //    if (y > 1 && y <= (coordinate.Y + ship.ShipLength))
+                    //    {
+                    //        isOverlap = true;
+                    //    }
 
-                }
-                if (ship.ShipCoordinateY == y)
-                {
-                    if (x > 1 && x <= (ship.ShipCoordinateX + ship.ShipLength))
-                    {
-                        isOverlap = true;
-                    }
+                    //}
+                    //if (coordinate.Y == y)
+                    //{
+                    //    if (x > 1 && x <= (coordinate.X + ship.ShipLength))
+                    //    {
+                    //        isOverlap = true;
+                    //    }
 
+                    //}
                 }
 
             }
             return isOverlap;
         }
-
         public void PvCMenuOptionThree()
         {
             // Place remaining ships randomly.

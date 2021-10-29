@@ -92,13 +92,26 @@ namespace Ada_Battleship
             {
                 if (ship.ShipName == name)
                 {
-                    ship.ShipCoordinateX = x;
-                    ship.ShipCoordinateY = y;
+
                     ship.Status = ShipStatus.Placed;
 
                 }
 
             }
+        }
+
+        public void AddShipCoordinates(string shipName, int x, int y)
+        {
+            foreach (var ship in _fleet)
+            {
+                if (ship.ShipName == shipName)
+                {
+                    ship.ShipCoordinate.Add(new Coordinate(x, y));
+
+                }
+
+            }
+            
         }
         public void PlaceShip(string shipName,int x, int y,char orientation)
         {
@@ -124,6 +137,7 @@ namespace Ada_Battleship
                             if (tile.Coordinate.X == x && tile.Coordinate.Y == y + i)
                             {
                                 tile.TilePlaceholder = 's';
+                                AddShipCoordinates(shipName, x, y+i);
 
                             }
                         }
@@ -132,6 +146,7 @@ namespace Ada_Battleship
                             if ( tile.Coordinate.X == x + i && tile.Coordinate.Y == y )
                             {
                                 tile.TilePlaceholder = 's';
+                                AddShipCoordinates(shipName, x+i, y);
 
                             }
                         }
@@ -186,8 +201,13 @@ namespace Ada_Battleship
         {
             foreach (var ship in _fleet)
             {
-                ship.ShipCoordinateX = 0;
-                ship.ShipCoordinateY = 0;
+                foreach (var coordinate in ship.ShipCoordinate)
+                {
+                    coordinate.X = 0;
+                    coordinate.Y = 0;
+                }
+                
+                
                 ship.Status = ShipStatus.Pending;
 
             }

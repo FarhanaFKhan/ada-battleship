@@ -39,5 +39,10 @@ namespace Ada_Battleship
             int alphabetToNum = columnLabel - 64;
             return alphabetToNum;
         }
+
+        public void UpdateShipStatusToHit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
