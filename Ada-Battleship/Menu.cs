@@ -174,6 +174,7 @@ namespace Ada_Battleship
                     _player1.State = 0;
                 }
                 _menuServices.GamePlay(attacker,defender);
+                DisplayAvailableShips();
 
             }
 

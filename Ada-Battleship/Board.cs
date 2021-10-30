@@ -52,6 +52,19 @@ namespace Ada_Battleship
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
                         Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
+                        Console.ResetColor();
+                    }
+                    else if (Tiles[j + counter].TilePlaceholder == 'H')
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
+                        Console.ResetColor();
+                    }
+                    else if (Tiles[j + counter].TilePlaceholder == 'M')
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                        Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
+                        Console.ResetColor();
                     }
                     else
                     {
