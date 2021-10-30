@@ -29,7 +29,7 @@ namespace Ada_Battleship
             {
                 _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
                 attacker.ShotBoard.DisplayBoard();
-                //DisplayAvailableShips();
+                DisplayAvailableShips(defender);
             }
             else
             {
@@ -38,6 +38,21 @@ namespace Ada_Battleship
                 Console.ResetColor();
             }
         }
-        
+
+        public void DisplayAvailableShips(Player currentPlayer)
+        {
+            Console.WriteLine();
+
+            Console.WriteLine($"{currentPlayer.Name} -- Ships Details:");
+            Console.WriteLine();
+            Console.Write("\tName  \tLength  \tHealth  \tstatus");
+            Console.WriteLine();
+
+            foreach (var ship in currentPlayer.PlayerFleet)
+            {
+                Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
+            }
+        }
+
     }
 }

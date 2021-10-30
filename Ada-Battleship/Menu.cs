@@ -34,7 +34,7 @@ namespace Ada_Battleship
             //_gameBoard.AddTile();
             _player1.GameBoard.DisplayBoard();
             Console.WriteLine();
-            DisplayAvailableShips();
+            _menuServices.DisplayAvailableShips(_player1);
             Console.WriteLine();
             Console.WriteLine("Select Game Mode:");
             Console.WriteLine("1.Player v Comp.");
@@ -86,7 +86,7 @@ namespace Ada_Battleship
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
                 Console.WriteLine();
-                DisplayAvailableShips();
+                _menuServices.DisplayAvailableShips(_player1);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("1.Place ship manually.");
@@ -174,7 +174,6 @@ namespace Ada_Battleship
                     _player1.State = 0;
                 }
                 _menuServices.GamePlay(attacker,defender);
-                DisplayAvailableShips();
 
             }
 
@@ -219,7 +218,7 @@ namespace Ada_Battleship
             {
                 _player1.GameBoard.PlaceShip(shipName, rowNumber, columnNumber, orientation);
                 _player1.GameBoard.DisplayBoard();
-                DisplayAvailableShips();
+                _menuServices.DisplayAvailableShips(_player1);
             }
             else
             {
@@ -258,7 +257,7 @@ namespace Ada_Battleship
                 }
 
                 Console.WriteLine();
-                DisplayAvailableShips();
+                _menuServices.DisplayAvailableShips(_player1);
             }
             _player1.GameBoard.DisplayBoard();
 
@@ -319,20 +318,7 @@ namespace Ada_Battleship
 
         }
 
-        private void DisplayAvailableShips()
-        {
-            Console.WriteLine();
-
-            Console.WriteLine("Ships Details:");
-            Console.WriteLine();
-            Console.Write("\tName  \tLength  \tHealth  \tstatus");
-            Console.WriteLine();
-
-            foreach (var ship in _player1.PlayerFleet)
-            {
-                Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
-            }
-        }
+        
 
         //check if the ship overlaps with already placed ship
         //if the coordX = x && coordY == y (return true) meaning there is an overlap
@@ -397,7 +383,7 @@ namespace Ada_Battleship
                 }
 
                 Console.WriteLine();
-                DisplayAvailableShips();
+                _menuServices.DisplayAvailableShips(_player1);
 
             }
             _player1.GameBoard.DisplayBoard();
@@ -457,8 +443,7 @@ namespace Ada_Battleship
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Ships placed on Comp's game board.");
             Console.ResetColor();
-            //Console.WriteLine("Comp's shot board.");
-            //compShotBoard.DisplayBoard();
+            
         }
 
         private List<Ship> GetPlacedShips(Player player)
