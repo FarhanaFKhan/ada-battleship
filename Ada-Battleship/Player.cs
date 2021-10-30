@@ -4,7 +4,7 @@ using Ada_Battleship.Configurations;
 
 namespace Ada_Battleship
 {
-    public class Player
+    public class Player: IPlayer
     {
         public string Name { get; set; }
         public int State;

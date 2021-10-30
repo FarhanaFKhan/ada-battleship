@@ -9,8 +9,8 @@ namespace Ada_Battleship
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         //private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails; //make sure this is directly not used. can be handled in player class
         //private readonly Board _gameBoard = new Board();
-        private readonly Player _player1 = new Player();
-        private readonly Player _player2 = new Player();
+        private  Player _player1 = new Player();
+        private  Player _player2 = new Player();
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly MenuServices _menuServices = new MenuServices();
         private readonly PlayerServices _playerServices = new PlayerServices();
@@ -34,7 +34,7 @@ namespace Ada_Battleship
             //_gameBoard.AddTile();
             _player1.GameBoard.DisplayBoard();
             Console.WriteLine();
-            _menuServices.DisplayAvailableShips(_player1);
+            _menuServices.DisplayAvailableShips( _player1);
             Console.WriteLine();
             Console.WriteLine("Select Game Mode:");
             Console.WriteLine("1.Player v Comp.");
@@ -173,7 +173,7 @@ namespace Ada_Battleship
                     defender = _player1;
                     _player1.State = 0;
                 }
-                _menuServices.GamePlay(attacker,defender);
+                _menuServices.GamePlay(attacker, defender);
 
             }
 
@@ -243,8 +243,11 @@ namespace Ada_Battleship
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                    var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
-                    var rowNumber = _boardServices.RandomlyGenerateRowNumber();
+                    //var columnNumber = _boardServices.RandomlyGenerateColumnNumber(ship.ShipCoordinate);
+                    //var rowNumber = _boardServices.RandomlyGenerateRowNumber(ship.ShipCoordinate);
+                    var coordinates = _boardServices.RandomlyGenerateCoordinates(ship.ShipCoordinate);
+                    var rowNumber = coordinates.Item1;
+                    var columnNumber = coordinates.Item2;
                     var orientation = _menuServices.ToggleOrientation();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
@@ -369,8 +372,10 @@ namespace Ada_Battleship
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                    var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
-                    var rowNumber = _boardServices.RandomlyGenerateRowNumber();
+                    //var columnNumber = _boardServices.RandomlyGenerateColumnNumber(ship.ShipCoordinate);
+                    //var rowNumber = _boardServices.RandomlyGenerateRowNumber(ship.ShipCoordinate);
+                    var columnNumber = _boardServices.RandomlyGenerateColumnNumber(ship.ShipCoordinate);
+                    var rowNumber = _boardServices.RandomlyGenerateRowNumber(ship.ShipCoordinate);
                     var orientation = _menuServices.ToggleOrientation();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
@@ -424,8 +429,12 @@ namespace Ada_Battleship
                 //this block will keep generating a random number unless its a valid move
                 while (isValid == false)
                 {
-                    var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
-                    var rowNumber = _boardServices.RandomlyGenerateRowNumber();
+                    var columnNumber = _boardServices.RandomlyGenerateColumnNumber(ship.ShipCoordinate);
+                    var rowNumber = _boardServices.RandomlyGenerateRowNumber(ship.ShipCoordinate);
+                    //this code is creating issues for some reason
+                    //var coordinates = _boardServices.RandomlyGenerateCoordinates(ship.ShipCoordinate);
+                    //var rowNumber = coordinates.Item1;
+                    //var columnNumber = coordinates.Item2;
                     var orientation = _menuServices.ToggleOrientation();
                     var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) &&

@@ -15,7 +15,7 @@ namespace Ada_Battleship
             return orientation;
         }
 
-        public void GamePlay(Player attacker, Player defender)
+        public void GamePlay(Player attacker,Player defender)
         {
             Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
             var userInput = Console.ReadLine();
@@ -29,7 +29,7 @@ namespace Ada_Battleship
             {
                 _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
                 attacker.ShotBoard.DisplayBoard();
-                DisplayAvailableShips(defender);
+                DisplayAvailableShips( defender);
             }
             else
             {

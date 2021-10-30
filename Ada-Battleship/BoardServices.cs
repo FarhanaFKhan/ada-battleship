@@ -50,23 +50,76 @@ namespace Ada_Battleship
         
 
         //combine the generators into one and use a tuple
-        public int RandomlyGenerateColumnNumber()
+        public int RandomlyGenerateColumnNumber(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();
+            var isValid = false;
             var columnNumber = rand.Next(1, _boardWidth);
+            var alreadyTaken = new List<int>();
+
+            while (isValid == false)
+            {
+                if (!alreadyTaken.Contains(columnNumber))
+                {
+                    
+                    
+                    isValid = true;
+                }
+                else
+                {
+                    alreadyTaken.Add(columnNumber);
+                }
+                
+            }
 
             return columnNumber;
 
         }
 
-        public int RandomlyGenerateRowNumber()
+        public int RandomlyGenerateRowNumber(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();
             var rowNumber = rand.Next(1, _boardHeight);
-            return rowNumber;
+            
+            var isValid = false;
+            var alreadyTaken = new List<int>();
 
+            while (isValid == false)
+            {
+                if (!alreadyTaken.Contains(rowNumber))
+                {
+                    
+                    isValid = true;
+                }
+                else
+                {
+                    alreadyTaken.Add(rowNumber);
+                }
+               
+            }
+
+            return rowNumber;
         }
 
+        public (int, int) RandomlyGenerateCoordinates(List<Coordinate> shipCoordinates)
+        {
+            var rand = new Random();
+            var rowNumber = rand.Next(1, _boardHeight);
+            var columnNumber = rand.Next(1, _boardHeight);
+            var isValid = false;
+            var listOfCoordinates = shipCoordinates;
+
+            while (isValid == false)
+            {
+                if (!listOfCoordinates.Exists(c => c.X == rowNumber && c.Y == columnNumber))
+                {
+                    isValid = true;
+                    
+                }
+            }
+
+            return (rowNumber, columnNumber);
+        }
         private void ResetShip()
         {
             foreach (var ship in _fleet)
