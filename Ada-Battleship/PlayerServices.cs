@@ -22,7 +22,7 @@ namespace Ada_Battleship
                         foreach (var ship in opponentShipInfo)
                         {
                             if (ship.ShipCoordinate.Exists(c=>c.X == x) && ship.ShipCoordinate.Exists(c => c.Y == y))
-                            {
+                            { //somethin weird here
                                 var shipName = ship.ShipName;
                                 Console.WriteLine($"{shipName} damaged");
                                 if (ship.Health != 0)
