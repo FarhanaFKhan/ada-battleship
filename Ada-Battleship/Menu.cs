@@ -7,38 +7,42 @@ namespace Ada_Battleship
     {
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
-        //private readonly List<Ship> _shipInfo = Setup.Instance.ShipDetails; //make sure this is directly not used. can be handled in player class
-        //private readonly Board _gameBoard = new Board();
-        private  Player _player1 = new Player();
-        private  Player _player2 = new Player();
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly MenuServices _menuServices = new MenuServices();
         private readonly PlayerServices _playerServices = new PlayerServices();
 
-        private string _playerName;
+
         private int _mainOption;
 
 
         public void MainMenu()
         {
 
-            //this will be stored in player class
             Console.WriteLine("Please enter your name:");
-            _playerName = Console.ReadLine();
-            _player1.Name = _playerName;
-            Console.WriteLine($"Greetings {_player1.Name}! You have the following settings:");
+            var playerName = Console.ReadLine();
+
+            IPlayer player1 = new Player();
+            player1.Name = playerName;
+            List<Ship> playerOneFleet = Setup.Instance.ShipDetailsP1;
+            player1.PlayerFleet = playerOneFleet;
+
+
+            Console.WriteLine($"Greetings {player1.Name}! You have the following settings:");
             Console.WriteLine();
 
             Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
             Console.WriteLine();
-            //_gameBoard.AddTile();
-            _player1.GameBoard.DisplayBoard();
+
+            player1.GameBoard.DisplayBoard();
             Console.WriteLine();
-            _menuServices.DisplayAvailableShips( _player1);
+
+            _menuServices.DisplayAvailableShips(player1);
             Console.WriteLine();
+
             Console.WriteLine("Select Game Mode:");
             Console.WriteLine("1.Player v Comp.");
             Console.WriteLine("2.Quit.");
+
             try
             {
                 _mainOption = int.Parse(Console.ReadLine());
@@ -56,20 +60,22 @@ namespace Ada_Battleship
                     Console.WriteLine("Quit Game");
                     break;
                 default:
-                    PvCMenu();
+                    PvCMenu(player1);
                     break;
             }
 
         }
 
-        public void PvCMenu()
+        public void PvCMenu(IPlayer player1)
         {
+            IPlayer player2 = new Player();
+            player2.PlayerFleet = Setup.Instance.ShipDetailsP2;
 
             int pvCMenuOption;
 
             do
             {
-                var availableShips = GetAvailableShips();
+                var availableShips = GetAvailableShips(player1);
                 if (availableShips.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -86,7 +92,7 @@ namespace Ada_Battleship
                 Console.WriteLine();
                 Console.WriteLine("You are now in PvC mode");
                 Console.WriteLine();
-                _menuServices.DisplayAvailableShips(_player1);
+                _menuServices.DisplayAvailableShips(player1);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("1.Place ship manually.");
@@ -112,19 +118,19 @@ namespace Ada_Battleship
                 switch (pvCMenuOption)
                 {
                     case 2:
-                        PvCMenuOptionTwo();
+                        PvCMenuOptionTwo(player1);
                         break;
                     case 3:
-                        PvCMenuOptionThree();
+                        PvCMenuOptionThree(player1);
                         break;
                     case 4:
-                        PvCOptionFour();
+                        PvCOptionFour(player1);
                         break;
                     case 5:
                         QuitGame();
                         break;
                     default:
-                        PvCMenuOptionOne();
+                        PvCMenuOptionOne(player1);
                         break;
                 }
 
@@ -135,43 +141,43 @@ namespace Ada_Battleship
             Console.WriteLine("Comp's turn to place ships.");
             Console.ResetColor();
 
-            CompBoardSetup();
+            CompBoardSetup(player2);
 
-            var listOfPlayerOnePlacedShips = GetPlacedShips(_player1);
-            var listOfPlayerTwoPlacedShips = GetPlacedShips(_player2);
+            var listOfPlayerOnePlacedShips = GetPlacedShips(player1);
+            var listOfPlayerTwoPlacedShips = GetPlacedShips(player2);
 
-            
+
 
             while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0)
             {
-                Player attacker;
-                Player defender;
+                IPlayer attacker;
+                IPlayer defender;
                 if (listOfPlayerOnePlacedShips.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine($"Congratulations! Player 2 ({_player2.Name}) won! ");
+                    Console.WriteLine($"Congratulations! Player 2 ({player2.Name}) won! ");
                     Console.ResetColor();
                     break;
                 }
                 if (listOfPlayerTwoPlacedShips.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    Console.WriteLine($"Congratulations! Player 1 ({_player1.Name}) won! ");
+                    Console.WriteLine($"Congratulations! Player 1 ({player1.Name}) won! ");
                     Console.ResetColor();
                     break;
                 }
                 //this needs to be a method
-                if (_player1.State == 0)
+                if (player1.State == 0)
                 {
-                    attacker = _player1;
-                    defender = _player2;
-                    _player1.State = 1;
+                    attacker = player1;
+                    defender = player2;
+                    player1.State = 1;
                 }
                 else
                 {
-                    attacker = _player2;
-                    defender = _player1;
-                    _player1.State = 0;
+                    attacker = player2;
+                    defender = player1;
+                    player1.State = 0;
                 }
                 _menuServices.GamePlay(attacker, defender);
 
@@ -179,21 +185,21 @@ namespace Ada_Battleship
 
         }
 
-        public void PvCMenuOptionOne()
+        public void PvCMenuOptionOne(IPlayer player1)
         {
             //place ship manually
 
-            _player1.GameBoard.DisplayBoard();
-            var availableShips = GetAvailableShips();
+            player1.GameBoard.DisplayBoard();
+            var availableShips = GetAvailableShips(player1);
 
 
             Console.WriteLine(availableShips.Count);
 
-            ShipMenu();
+            ShipMenu(player1);
             Console.WriteLine($"Available ships : {availableShips.Count}");
             Console.WriteLine();
             var shipOption = Console.ReadLine();
-            var shipName = GetShipName(shipOption);
+            var shipName = GetShipName(shipOption, player1);
 
             Console.WriteLine($"You selected {shipName}");
             Console.WriteLine();
@@ -212,13 +218,13 @@ namespace Ada_Battleship
             var columnNumber = _boardServices.AlphabetToInt(columnLabel);
 
             //validator for input
-            var isValid = _player1.GameBoard.ValidateMove(columnNumber, rowNumber);
-            var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
+            var isValid = player1.GameBoard.ValidateMove(columnNumber, rowNumber);
+            var isOverlap = CheckForShipOverlap(rowNumber, columnNumber, player1);
             if (isValid && !isOverlap)
             {
-                _player1.GameBoard.PlaceShip(shipName, rowNumber, columnNumber, orientation);
-                _player1.GameBoard.DisplayBoard();
-                _menuServices.DisplayAvailableShips(_player1);
+                player1.GameBoard.PlaceShip(shipName, rowNumber, columnNumber, orientation, player1);
+                player1.GameBoard.DisplayBoard();
+                _menuServices.DisplayAvailableShips(player1);
             }
             else
             {
@@ -230,12 +236,13 @@ namespace Ada_Battleship
 
         }
 
-        public void PvCMenuOptionTwo() //maybe send in player instance?
+        public void PvCMenuOptionTwo(IPlayer player1) 
         {
             //Place all ships randomly.
             _boardServices.ResetBoard();
 
-            foreach (var ship in _player1.PlayerFleet)
+
+            foreach (var ship in player1.PlayerFleet)
             {
                 var shipLength = ship.ShipLength;
                 var isValid = false;
@@ -249,10 +256,10 @@ namespace Ada_Battleship
                     var rowNumber = coordinates.Item1;
                     var columnNumber = coordinates.Item2;
                     var orientation = _menuServices.ToggleOrientation();
-                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
+                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber, player1);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
                     {
-                        _player1.GameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
+                        player1.GameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation, player1);
                         isValid = true;
 
                     }
@@ -260,30 +267,39 @@ namespace Ada_Battleship
                 }
 
                 Console.WriteLine();
-                _menuServices.DisplayAvailableShips(_player1);
+                _menuServices.DisplayAvailableShips(player1);
             }
-            _player1.GameBoard.DisplayBoard();
+            player1.GameBoard.DisplayBoard();
+            Console.WriteLine();
+            foreach (var ship in player1.PlayerFleet)
+            {
+                foreach (var coordinate in ship.ShipCoordinate)
+                {
+                    Console.WriteLine($"{ship.ShipName}, {coordinate.X},{coordinate.Y}");
+                }
+
+            }
 
         }
         //needs to be extracted to another class
-        private List<Ship> GetAvailableShips()
+        private List<Ship> GetAvailableShips(IPlayer player1)
         {
             var listOfAvailableShips = new List<Ship>();
 
-            for (int i = 0; i < _player1.PlayerFleet.Count; i++)
+            for (int i = 0; i < player1.PlayerFleet.Count; i++)
             {
-                if (_player1.PlayerFleet[i].Status == ShipStatus.Pending)
+                if (player1.PlayerFleet[i].Status == ShipStatus.Pending)
                 {
-                    listOfAvailableShips.Add(_player1.PlayerFleet[i]);
+                    listOfAvailableShips.Add(player1.PlayerFleet[i]);
                 }
             }
 
             return listOfAvailableShips;
         }
-        private void ShipMenu()
+        private void ShipMenu(IPlayer player)
         {
             Console.WriteLine();
-            var availableShips = GetAvailableShips();
+            var availableShips = GetAvailableShips(player);
             Console.WriteLine("Please select an available ship:");
             for (int i = 0; i < availableShips.Count; i++)
             {
@@ -292,10 +308,10 @@ namespace Ada_Battleship
             }
         }
 
-        private string GetShipName(string shipOption)
+        private string GetShipName(string shipOption, IPlayer player)
         {
             int shipNumber;
-            var availableShips = GetAvailableShips();
+            var availableShips = GetAvailableShips(player);
             var shipName = availableShips[0].ShipName; //could be better
 
             try
@@ -321,16 +337,16 @@ namespace Ada_Battleship
 
         }
 
-        
+
 
         //check if the ship overlaps with already placed ship
         //if the coordX = x && coordY == y (return true) meaning there is an overlap
         //if the columnNumber is a point on the ship
 
-        public bool CheckForShipOverlap(int x, int y)
+        public bool CheckForShipOverlap(int x, int y, IPlayer player)
         {
             var isOverlap = false;
-            foreach (var ship in _player1.PlayerFleet)
+            foreach (var ship in player.PlayerFleet)
             {
                 foreach (var coordinate in ship.ShipCoordinate)
                 {
@@ -359,10 +375,10 @@ namespace Ada_Battleship
             }
             return isOverlap;
         }
-        public void PvCMenuOptionThree()
+        public void PvCMenuOptionThree(IPlayer player1)
         {
             // Place remaining ships randomly.
-            var availableShips = GetAvailableShips();
+            var availableShips = GetAvailableShips(player1);
             foreach (var ship in availableShips)
             {
                 var shipLength = ship.ShipLength;
@@ -377,10 +393,10 @@ namespace Ada_Battleship
                     var columnNumber = _boardServices.RandomlyGenerateColumnNumber(ship.ShipCoordinate);
                     var rowNumber = _boardServices.RandomlyGenerateRowNumber(ship.ShipCoordinate);
                     var orientation = _menuServices.ToggleOrientation();
-                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
+                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber, player1);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) && !isOverlap)
                     {
-                        _player1.GameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
+                        player1.GameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation, player1);
                         isValid = true;
 
                     }
@@ -388,14 +404,14 @@ namespace Ada_Battleship
                 }
 
                 Console.WriteLine();
-                _menuServices.DisplayAvailableShips(_player1);
+                _menuServices.DisplayAvailableShips(player1);
 
             }
-            _player1.GameBoard.DisplayBoard();
+            player1.GameBoard.DisplayBoard();
 
         }
 
-        private void PvCOptionFour()
+        private void PvCOptionFour(IPlayer player)
         {
             //reset board
             _boardServices.ResetBoard();
@@ -403,7 +419,7 @@ namespace Ada_Battleship
             Console.WriteLine("The board has been reset.");
             Console.ResetColor();
             Console.WriteLine();
-            _player1.GameBoard.DisplayBoard();
+            player.GameBoard.DisplayBoard();
         }
 
         private void QuitGame()
@@ -414,11 +430,19 @@ namespace Ada_Battleship
 
         }
 
-        public void CompBoardSetup()
+        public void CompBoardSetup(IPlayer player2)
         {
-            var compGameBoard = _player2.GameBoard;
-            var compShips = _player2.PlayerFleet;
-            _player2.Name = "Eva";
+            var compGameBoard = player2.GameBoard;
+            var compShips = player2.PlayerFleet;
+            foreach (var ship in compShips)
+            {
+                foreach (var coordinate in ship.ShipCoordinate)
+                {
+                    Console.WriteLine($"{ship.ShipName}, {coordinate.X},{coordinate.Y}");
+                }
+
+            }
+            player2.Name = "Eva";
 
 
             foreach (var ship in compShips)
@@ -436,11 +460,11 @@ namespace Ada_Battleship
                     //var rowNumber = coordinates.Item1;
                     //var columnNumber = coordinates.Item2;
                     var orientation = _menuServices.ToggleOrientation();
-                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber);
+                    var isOverlap = CheckForShipOverlap(rowNumber, columnNumber, player2);
                     if ((_boardWidth > columnNumber + shipLength) && (_boardHeight > rowNumber + shipLength) &&
                         !isOverlap)
                     {
-                        compGameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation);
+                        compGameBoard.PlaceShip(ship.ShipName, rowNumber, columnNumber, orientation, player2);
                         isValid = true;
 
                     }
@@ -449,13 +473,21 @@ namespace Ada_Battleship
             }
             compGameBoard.DisplayBoard();
             Console.WriteLine();
+            foreach (var ship in compShips)
+            {
+                foreach (var coordinate in ship.ShipCoordinate)
+                {
+                    Console.WriteLine($"{ship.ShipName}, {coordinate.X},{coordinate.Y}");
+                }
+
+            }
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Ships placed on Comp's game board.");
             Console.ResetColor();
-            
+
         }
 
-        private List<Ship> GetPlacedShips(Player player)
+        private List<Ship> GetPlacedShips(IPlayer player)
         {
             var listOfPlacedShips = new List<Ship>();
 

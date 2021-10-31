@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ada_Battleship
 {
     public class PlayerServices
     {
-        public void ShootTorpedo(int x, int y, Player attacker, Player defender)
+        public void ShootTorpedo(int x, int y, IPlayer attacker, IPlayer defender)
         {
             var defenderBoardTiles = defender.GameBoard.Tiles;
             var opponentShipInfo = defender.PlayerFleet;
@@ -22,16 +23,21 @@ namespace Ada_Battleship
                         attackerShotBoardTile.TilePlaceholder = 'H';
                         foreach (var ship in opponentShipInfo)
                         {
-                            if (ship.ShipCoordinate.Exists(c => c.X == x && c.Y == y))
-                            { //somethin weird here
-                                var shipName = ship.ShipName;
-                                Console.WriteLine($"{shipName} damaged");
-                                if (ship.Health != 0)
-                                {
-                                    ship.Health--;
-                                }
-
+                            foreach (var coord in ship.ShipCoordinate)
+                            {
+                                Console.WriteLine($"{defender.Name}--{ship.ShipName}--X:{coord.X},Y:{coord.Y}");
                             }
+                            //var coordExists = ship.ShipCoordinate.Contains(new Coordinate(x,y));
+                            //if (coordExists)
+                            //{ //somethin weird here
+                            //    var shipName = ship.ShipName;
+                            //    Console.WriteLine($"{shipName} damaged");
+                            //    if (ship.Health != 0)
+                            //    {
+                            //        ship.Health--;
+                            //    }
+
+                            //}
                         }
 
                     }

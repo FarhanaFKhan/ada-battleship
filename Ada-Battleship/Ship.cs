@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ada_Battleship
 {
@@ -8,27 +9,25 @@ namespace Ada_Battleship
         public int ShipLength { get; set; }
         public int Health { get; set; }
         public ShipStatus Status { get; set; }
-        //public int ShipCoordinateX { get; set; }
-        //public int ShipCoordinateY { get; set; }
-        public List<Coordinate> ShipCoordinate = new List<Coordinate>();
-
+        public List<Coordinate> ShipCoordinate => _listOfCoordinates;
+        private readonly List<Coordinate> _listOfCoordinates = new List<Coordinate>();
+        
         public Ship(string shipName, int shipLength)
         {
             ShipName = shipName;
             ShipLength = shipLength;
             Health = shipLength;
             Status = ShipStatus.Pending;
-            SetShipCoordinates();
+            
         }
 
-        public void SetShipCoordinates()
+        public List<Coordinate> SetCoordinates(int x, int y)
         {
-            foreach (var coordinate in ShipCoordinate)
-            {
-                coordinate.X = 0;
-                coordinate.Y = 0;
-            }
+            _listOfCoordinates.Add(new Coordinate(x, y));
+
+
+            return _listOfCoordinates;
         }
-        
+
     }
 }
