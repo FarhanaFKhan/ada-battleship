@@ -45,6 +45,7 @@ namespace Ada_Battleship
             {
                 var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
                 var rowNumber = _boardServices.RandomlyGenerateRowNumber();
+                
                 bool isValid;
                 do
                 {

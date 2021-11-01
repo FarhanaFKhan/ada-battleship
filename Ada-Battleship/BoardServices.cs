@@ -101,6 +101,7 @@ namespace Ada_Battleship
             return rowNumber;
         }
 
+        //method overload to generate coordinates for AI torpedo shot
         public int RandomlyGenerateColumnNumber()
         {
             var rand = new Random();
@@ -137,21 +138,41 @@ namespace Ada_Battleship
 
             return (rowNumber, columnNumber);
         }
-        private void ResetShip()
-        {
-            foreach (var ship in _fleet)
-            {
-                foreach (var coordinate in ship.ShipCoordinate)
-                {
-                    coordinate.X = 0;
-                    coordinate.Y = 0;
-                }
+
+        //tried to create an aglorithm here that took in the tiles of the attacker's baord
+        //checked whether the generated row number and column number existed and that tile also had a placeholder of M
+        //if it did then return the coordinates of the next tile
+
+        //public (int, int) RandomlyGenerateCoordinates(List<Tile> attackerShotBoard)
+        //{
+        //    var rand = new Random();
+        //    var rowNumber = rand.Next(1, _boardHeight);
+        //    var columnNumber = rand.Next(1, _boardHeight);
+        //    var isValid = false;
+        //    var shotBoardTiles = attackerShotBoard;
 
 
-                ship.Status = ShipStatus.Pending;
+        //    while (isValid == false)
+        //    {
+        //        for (int i = 0; i < shotBoardTiles.Count; i++)
+        //        {
+        //            if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'H')
+        //            {
+        //                rowNumber = shotBoardTiles[i+1].Coordinate.X;
+        //                columnNumber = shotBoardTiles[i + 1].Coordinate.Y;
 
-            }
-        }
+        //                isValid = true;
+        //                break;
+
+        //            }
+        //        }
+                
+
+        //    }
+
+        //    return (rowNumber, columnNumber);
+        //}
+       
 
         public void UpdateShipStatus(string name, string status, IPlayer currentPlayer)
         {
@@ -170,6 +191,22 @@ namespace Ada_Battleship
                     }
 
                 }
+
+            }
+        }
+
+        private void ResetShip()
+        {
+            foreach (var ship in _fleet)
+            {
+                foreach (var coordinate in ship.ShipCoordinate)
+                {
+                    coordinate.X = 0;
+                    coordinate.Y = 0;
+                }
+
+
+                ship.Status = ShipStatus.Pending;
 
             }
         }

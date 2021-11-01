@@ -7,7 +7,7 @@ namespace Ada_Battleship
 {
     public class PlayerServices
     {
-        private BoardServices _boardServices = new BoardServices();
+        private readonly BoardServices _boardServices = new BoardServices();
         public void ShootTorpedo(int x, int y, IPlayer attacker, IPlayer defender)
         {
             var defenderBoardTiles = defender.GameBoard.Tiles;
