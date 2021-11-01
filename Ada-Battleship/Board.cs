@@ -28,8 +28,7 @@ namespace Ada_Battleship
         }
         public void DisplayBoard()
         {
-            // Console.Clear();
-            // AddTile();
+            //Console.Clear();
 
             for (var i = 0; i < _boardWidth; i++)
             {
@@ -69,8 +68,8 @@ namespace Ada_Battleship
                     else
                     {
                         Console.ResetColor();
-                        //Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
-                        Console.Write("\t" + Tiles[j + counter].Coordinate.X +","+ Tiles[j + counter].Coordinate.Y);
+                        Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
+                        //Console.Write("\t" + Tiles[j + counter].Coordinate.X +","+ Tiles[j + counter].Coordinate.Y);
                     }
 
                 }

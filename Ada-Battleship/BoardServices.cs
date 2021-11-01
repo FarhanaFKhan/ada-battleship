@@ -137,6 +137,27 @@ namespace Ada_Battleship
             }
         }
 
+        public void UpdateShipStatus(string name, string status, IPlayer currentPlayer)
+        {
+            foreach (var ship in currentPlayer.PlayerFleet)
+            {
+                if (ship.ShipName == name)
+                {
+                    switch (status)
+                    {
+                        case "hit":
+                            ship.Status = ShipStatus.Hit;
+                            break;
+                        default:
+                            ship.Status = ShipStatus.Placed;
+                            break;
+                    }
+
+                }
+
+            }
+        }
+
         public void ResetBoard()
         {
             ResetShip();

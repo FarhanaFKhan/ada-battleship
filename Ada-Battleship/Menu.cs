@@ -143,13 +143,17 @@ namespace Ada_Battleship
 
             CompBoardSetup(player2);
 
-            var listOfPlayerOnePlacedShips = GetPlacedShips(player1);
-            var listOfPlayerTwoPlacedShips = GetPlacedShips(player2);
+            List<Ship> listOfPlayerOnePlacedShips;
+            List<Ship> listOfPlayerTwoPlacedShips;
 
 
 
-            while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0)
+            do
             {
+                listOfPlayerOnePlacedShips = GetPlacedShips(player1);
+                listOfPlayerTwoPlacedShips = GetPlacedShips(player2);
+                Console.WriteLine($"p1 placed ship {listOfPlayerOnePlacedShips.Count}");
+                Console.WriteLine($"p2 placed ship {listOfPlayerTwoPlacedShips.Count}");
                 IPlayer attacker;
                 IPlayer defender;
                 if (listOfPlayerOnePlacedShips.Count == 0)
@@ -159,6 +163,7 @@ namespace Ada_Battleship
                     Console.ResetColor();
                     break;
                 }
+
                 if (listOfPlayerTwoPlacedShips.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -166,6 +171,7 @@ namespace Ada_Battleship
                     Console.ResetColor();
                     break;
                 }
+
                 //this needs to be a method
                 if (player1.State == 0)
                 {
@@ -179,9 +185,10 @@ namespace Ada_Battleship
                     defender = player1;
                     player1.State = 0;
                 }
+
                 _menuServices.GamePlay(attacker, defender);
 
-            }
+            } while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0);
 
         }
 
@@ -271,14 +278,6 @@ namespace Ada_Battleship
             }
             player1.GameBoard.DisplayBoard();
             Console.WriteLine();
-            foreach (var ship in player1.PlayerFleet)
-            {
-                foreach (var coordinate in ship.ShipCoordinate)
-                {
-                    Console.WriteLine($"{ship.ShipName}, {coordinate.X},{coordinate.Y}");
-                }
-
-            }
 
         }
         //needs to be extracted to another class
@@ -434,14 +433,6 @@ namespace Ada_Battleship
         {
             var compGameBoard = player2.GameBoard;
             var compShips = player2.PlayerFleet;
-            foreach (var ship in compShips)
-            {
-                foreach (var coordinate in ship.ShipCoordinate)
-                {
-                    Console.WriteLine($"{ship.ShipName}, {coordinate.X},{coordinate.Y}");
-                }
-
-            }
             player2.Name = "Eva";
 
 
@@ -471,16 +462,9 @@ namespace Ada_Battleship
 
                 }
             }
-            compGameBoard.DisplayBoard();
+           // compGameBoard.DisplayBoard();
             Console.WriteLine();
-            foreach (var ship in compShips)
-            {
-                foreach (var coordinate in ship.ShipCoordinate)
-                {
-                    Console.WriteLine($"{ship.ShipName}, {coordinate.X},{coordinate.Y}");
-                }
-
-            }
+            
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Ships placed on Comp's game board.");
             Console.ResetColor();

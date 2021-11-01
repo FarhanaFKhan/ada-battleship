@@ -18,7 +18,7 @@ namespace Ada_Battleship
             ShipLength = shipLength;
             Health = shipLength;
             Status = ShipStatus.Pending;
-            
+
         }
 
         public List<Coordinate> SetCoordinates(int x, int y)

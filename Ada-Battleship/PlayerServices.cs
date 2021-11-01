@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 
 namespace Ada_Battleship
 {
     public class PlayerServices
     {
+        private BoardServices _boardServices = new BoardServices();
         public void ShootTorpedo(int x, int y, IPlayer attacker, IPlayer defender)
         {
             var defenderBoardTiles = defender.GameBoard.Tiles;
@@ -21,23 +23,30 @@ namespace Ada_Battleship
                         tile.TilePlaceholder = 'H';
                         attackerShotBoardTile.TileStatus = TileStatus.Hit;
                         attackerShotBoardTile.TilePlaceholder = 'H';
+                        
                         foreach (var ship in opponentShipInfo)
                         {
-                            foreach (var coord in ship.ShipCoordinate)
-                            {
-                                Console.WriteLine($"{defender.Name}--{ship.ShipName}--X:{coord.X},Y:{coord.Y}");
-                            }
-                            //var coordExists = ship.ShipCoordinate.Contains(new Coordinate(x,y));
-                            //if (coordExists)
-                            //{ //somethin weird here
-                            //    var shipName = ship.ShipName;
-                            //    Console.WriteLine($"{shipName} damaged");
-                            //    if (ship.Health != 0)
-                            //    {
-                            //        ship.Health--;
-                            //    }
+                            
+                            var coords = ship.ShipCoordinate.Where(c => c.X == x && c.Y == y).ToList();
+                            var coordExists = coords.Any(c=>c.X==x) && ship.ShipCoordinate.Any(c=>c.Y == y);
 
-                            //}
+                            if (coordExists)
+                            { //somethin weird here
+                                var shipName = ship.ShipName;
+                                Console.WriteLine($"{shipName} damaged");
+                                if (ship.Health != 0)
+                                {
+                                    ship.Health--;
+                                }
+
+                                if (ship.Health == 0)
+                                {
+                                    _boardServices.UpdateShipStatus(shipName,"hit",defender);
+                                    //ship.Status = ShipStatus.Hit;
+                                }
+
+                            }
+
                         }
 
                     }
