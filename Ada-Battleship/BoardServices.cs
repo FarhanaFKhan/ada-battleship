@@ -47,9 +47,9 @@ namespace Ada_Battleship
             return alphabetToNum;
         }
 
-        
 
-        
+
+
         public int RandomlyGenerateColumnNumber(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();
@@ -61,15 +61,15 @@ namespace Ada_Battleship
             {
                 if (!alreadyTaken.Contains(columnNumber))
                 {
-                    
-                    
+
+
                     isValid = true;
                 }
                 else
                 {
                     alreadyTaken.Add(columnNumber);
                 }
-                
+
             }
 
             return columnNumber;
@@ -80,7 +80,7 @@ namespace Ada_Battleship
         {
             var rand = new Random();
             var rowNumber = rand.Next(1, _boardHeight);
-            
+
             var isValid = false;
             var alreadyTaken = new List<int>();
 
@@ -88,14 +88,14 @@ namespace Ada_Battleship
             {
                 if (!alreadyTaken.Contains(rowNumber))
                 {
-                    
+
                     isValid = true;
                 }
                 else
                 {
                     alreadyTaken.Add(rowNumber);
                 }
-               
+
             }
 
             return rowNumber;
@@ -125,14 +125,14 @@ namespace Ada_Battleship
             var columnNumber = rand.Next(1, _boardHeight);
             var isValid = false;
             var listOfCoordinates = shipCoordinates;
-            
+
 
             while (isValid == false && listOfCoordinates.Count != 0)
             {
                 if (!listOfCoordinates.Exists(c => c.X == rowNumber && c.Y == columnNumber))
                 {
                     isValid = true;
-                    
+
                 }
             }
 
@@ -143,36 +143,38 @@ namespace Ada_Battleship
         //checked whether the generated row number and column number existed and that tile also had a placeholder of M
         //if it did then return the coordinates of the next tile
 
-        //public (int, int) RandomlyGenerateCoordinates(List<Tile> attackerShotBoard)
-        //{
-        //    var rand = new Random();
-        //    var rowNumber = rand.Next(1, _boardHeight);
-        //    var columnNumber = rand.Next(1, _boardHeight);
-        //    var isValid = false;
-        //    var shotBoardTiles = attackerShotBoard;
+        public (int, int) RandomlyGenerateCoordinates(List<Tile> attackerShotBoard)
+        {
+            var rand = new Random();
+            var rowNumber = rand.Next(1, _boardHeight);
+            var columnNumber = rand.Next(1, _boardHeight);
+            var shotBoardTiles = attackerShotBoard;
 
 
-        //    while (isValid == false)
-        //    {
-        //        for (int i = 0; i < shotBoardTiles.Count; i++)
-        //        {
-        //            if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'H')
-        //            {
-        //                rowNumber = shotBoardTiles[i+1].Coordinate.X;
-        //                columnNumber = shotBoardTiles[i + 1].Coordinate.Y;
+            for (int i = 0; i < shotBoardTiles.Count; i++)
+            {
+                if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'H')
+                {
+                    rowNumber = shotBoardTiles[i+1].Coordinate.Y;
+                    columnNumber = shotBoardTiles[i+1].Coordinate.X;
+                    break;
 
-        //                isValid = true;
-        //                break;
+                }
+                if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'M')
+                {
+                    rowNumber = shotBoardTiles[i+1].Coordinate.Y;
+                    
+                    break;
 
-        //            }
-        //        }
-                
+                }
+            }
 
-        //    }
 
-        //    return (rowNumber, columnNumber);
-        //}
-       
+
+
+            return (rowNumber, columnNumber);
+        }
+
 
         public void UpdateShipStatus(string name, string status, IPlayer currentPlayer)
         {

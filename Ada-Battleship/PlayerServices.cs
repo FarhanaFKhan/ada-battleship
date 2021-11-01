@@ -8,6 +8,7 @@ namespace Ada_Battleship
     public class PlayerServices
     {
         private readonly BoardServices _boardServices = new BoardServices();
+        //logic for shooting a torpedo
         public void ShootTorpedo(int x, int y, IPlayer attacker, IPlayer defender)
         {
             var defenderBoardTiles = defender.GameBoard.Tiles;
@@ -31,7 +32,7 @@ namespace Ada_Battleship
                             var coordExists = coords.Any(c=>c.X==x) && ship.ShipCoordinate.Any(c=>c.Y == y);
 
                             if (coordExists)
-                            { //somethin weird here
+                            {
                                 var shipName = ship.ShipName;
                                 Console.WriteLine($"{shipName} damaged");
                                 if (ship.Health != 0)
@@ -42,7 +43,6 @@ namespace Ada_Battleship
                                 if (ship.Health == 0)
                                 {
                                     _boardServices.UpdateShipStatus(shipName,"hit",defender);
-                                    //ship.Status = ShipStatus.Hit;
                                 }
 
                             }

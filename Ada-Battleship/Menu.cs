@@ -41,7 +41,8 @@ namespace Ada_Battleship
 
             Console.WriteLine("Select Game Mode:");
             Console.WriteLine("1.Player v Comp.");
-            Console.WriteLine("2.Quit.");
+            Console.WriteLine("2.Player v Player.");
+            Console.WriteLine("3.Quit.");
 
             try
             {
@@ -57,6 +58,9 @@ namespace Ada_Battleship
             switch (_mainOption)
             {
                 case 2:
+                    Console.WriteLine("PvP mode");
+                    break;
+                case 3:
                     Console.WriteLine("Quit Game");
                     break;
                 default:
@@ -192,6 +196,7 @@ namespace Ada_Battleship
 
         }
 
+        
         public void PvCMenuOptionOne(IPlayer player1)
         {
             //place ship manually

@@ -25,18 +25,12 @@ namespace Ada_Battleship.Configurations
         public List<Ship> ShipDetailsP1 = new List<Ship>();
         public List<Ship> ShipDetailsP2 = new List<Ship>();
 
-        public static Setup Instance
-        {
-            get
-            {
-                Console.WriteLine("Instance called");
-                return _lazy.Value;
-            }
-        }
+        public static Setup Instance => _lazy.Value;
 
         private Setup()
         {
-            Console.WriteLine("Constructor invoked.");
+            Console.WriteLine("****ADA_BATTLESHIP*****");
+            Console.WriteLine();
             FileParser();
         }
 

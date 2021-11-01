@@ -43,8 +43,11 @@ namespace Ada_Battleship
 
             else
             {
-                var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
-                var rowNumber = _boardServices.RandomlyGenerateRowNumber();
+                var coordinateGenerator = _boardServices.RandomlyGenerateCoordinates(attacker.ShotBoard.Tiles);
+                var rowNumber = coordinateGenerator.Item1;
+                var columnNumber = coordinateGenerator.Item2;
+                //var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
+                //var rowNumber = _boardServices.RandomlyGenerateRowNumber();
                 
                 bool isValid;
                 do
