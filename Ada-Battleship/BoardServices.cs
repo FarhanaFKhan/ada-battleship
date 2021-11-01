@@ -49,7 +49,7 @@ namespace Ada_Battleship
 
         
 
-        //combine the generators into one and use a tuple
+        
         public int RandomlyGenerateColumnNumber(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();
@@ -101,6 +101,22 @@ namespace Ada_Battleship
             return rowNumber;
         }
 
+        public int RandomlyGenerateColumnNumber()
+        {
+            var rand = new Random();
+            var columnNumber = rand.Next(1, _boardWidth);
+
+            return columnNumber;
+        }
+
+        public int RandomlyGenerateRowNumber()
+        {
+            var rand = new Random();
+            var rowNumber = rand.Next(1, _boardHeight);
+            return rowNumber;
+        }
+
+        //combine the generators into one and use a tuple
         public (int, int) RandomlyGenerateCoordinates(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();

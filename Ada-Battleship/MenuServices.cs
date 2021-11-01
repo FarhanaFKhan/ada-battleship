@@ -18,25 +18,43 @@ namespace Ada_Battleship
         public void GamePlay(IPlayer attacker, IPlayer defender)
         {
             Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
-            var userInput = Console.ReadLine();
-            Console.WriteLine(userInput);
-            var splitMove = _boardServices.SplitMove(userInput);
-            var columnLabel = splitMove.Item1;
-            var rowNumber = splitMove.Item2;
-            var columnNumber = _boardServices.AlphabetToInt(columnLabel);
-            var isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
-            if (isValid)
+            if (attacker.Name != "Eva")
             {
-                _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
-                attacker.ShotBoard.DisplayBoard();
-                DisplayAvailableShips( defender);
+                var userInput = Console.ReadLine();
+                Console.WriteLine(userInput);
+                var splitMove = _boardServices.SplitMove(userInput);
+                var columnLabel = splitMove.Item1;
+                var rowNumber = splitMove.Item2;
+                var columnNumber = _boardServices.AlphabetToInt(columnLabel);
+                var isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
+                if (isValid)
+                {
+                    _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                    attacker.ShotBoard.DisplayBoard();
+                    DisplayAvailableShips(defender);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Please enter a valid move");
+                    Console.ResetColor();
+                }
             }
+
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Please enter a valid move");
-                Console.ResetColor();
+                var columnNumber = _boardServices.RandomlyGenerateColumnNumber();
+                var rowNumber = _boardServices.RandomlyGenerateRowNumber();
+                bool isValid;
+                do
+                {
+                    isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
+                    _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                    attacker.ShotBoard.DisplayBoard();
+                    DisplayAvailableShips(defender);
+                } while (!isValid);
             }
+
         }
 
         public void DisplayAvailableShips(IPlayer currentPlayer)

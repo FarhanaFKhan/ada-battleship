@@ -243,7 +243,7 @@ namespace Ada_Battleship
 
         }
 
-        public void PvCMenuOptionTwo(IPlayer player1) 
+        public void PvCMenuOptionTwo(IPlayer player1)
         {
             //Place all ships randomly.
             _boardServices.ResetBoard();
@@ -462,9 +462,9 @@ namespace Ada_Battleship
 
                 }
             }
-           // compGameBoard.DisplayBoard();
+            compGameBoard.DisplayBoard();
             Console.WriteLine();
-            
+
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Ships placed on Comp's game board.");
             Console.ResetColor();
@@ -486,14 +486,5 @@ namespace Ada_Battleship
             return listOfPlacedShips;
         }
 
-        //public void ShootTorpedo(int x, int y)
-        //{
-
-        //    Console.WriteLine("get opponent's fleet");
-        //    Console.WriteLine("check if a tile has x,y coordinates AND status 'placed' ");
-        //    Console.WriteLine("change status to hit if placeholder is 's' otherwise miss");
-
-
-        //}
     }
 }
