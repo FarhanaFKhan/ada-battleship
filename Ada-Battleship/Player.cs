@@ -16,14 +16,15 @@ namespace Ada_Battleship
 
         //score?
 
-        public Player()
+        public Player(string name)
         {
             State = 0;
             GameBoard = new Board();
             ShotBoard = new Board();
             GameBoard.AddTile();
             ShotBoard.AddTile();
-            Console.WriteLine($"constructor for {Name}");
+            Name = name;
+            Console.WriteLine($"{Name} has joined");
         }
 
         
