@@ -24,7 +24,10 @@ namespace Ada_Battleship
             GameBoard.AddTile();
             ShotBoard.AddTile();
             Name = name;
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{Name} has joined");
+            Console.ResetColor();
         }
 
         

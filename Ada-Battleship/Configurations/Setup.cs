@@ -29,7 +29,11 @@ namespace Ada_Battleship.Configurations
 
         private Setup()
         {
-            Console.WriteLine("****ADA_BATTLESHIP*****");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("\t\t\t\t\t*****ADA_BATTLESHIP*****");
+            Console.ResetColor();
             Console.WriteLine();
             FileParser();
         }

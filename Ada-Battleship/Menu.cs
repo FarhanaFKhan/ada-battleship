@@ -47,7 +47,7 @@ namespace Ada_Battleship
                     _cvc.Menu();
                     break;
                 case 4:
-                    Console.WriteLine("Quit Game");
+                    _menuServices.QuitGame();
                     break;
                 default:
                     _pvc.PvCMenu();

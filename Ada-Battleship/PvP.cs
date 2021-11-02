@@ -181,7 +181,7 @@ namespace Ada_Battleship
                         _pvc.PvCOptionFour(currentPlayer);
                         break;
                     case 5:
-                        _pvc.QuitGame();
+                        _menuServices.QuitGame();
                         break;
                     default:
                         _pvc.PvCMenuOptionOne(currentPlayer);

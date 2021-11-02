@@ -34,7 +34,11 @@ namespace Ada_Battleship
                             if (coordExists)
                             {
                                 var shipName = ship.ShipName;
-                                Console.WriteLine($"{shipName} damaged");
+                                Console.WriteLine();
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.WriteLine($"{shipName} damaged from {defender.Name}'s fleet");
+                                Console.ResetColor();
+                                Console.WriteLine();
                                 if (ship.Health != 0)
                                 {
                                     ship.Health--;

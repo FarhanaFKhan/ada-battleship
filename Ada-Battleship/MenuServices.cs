@@ -136,7 +136,12 @@ namespace Ada_Battleship
                 if (isValid)
                 {
                     _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine($"{attacker.Name} -- Shot board");
+                    Console.ResetColor();
                     attacker.ShotBoard.DisplayBoard();
+                    Console.WriteLine();
                     DisplayAvailableShips(defender);
                 }
                 else
@@ -158,6 +163,10 @@ namespace Ada_Battleship
                 {
                     isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
                     _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine($"{attacker.Name} -- Shot board");
+                    Console.ResetColor();
                     attacker.ShotBoard.DisplayBoard();
                     DisplayAvailableShips(defender);
                 } while (!isValid);
@@ -203,6 +212,13 @@ namespace Ada_Battleship
             {
                 Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
             }
+        }
+        public void QuitGame()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("You quit game!");
+            Console.ResetColor();
+
         }
 
     }
