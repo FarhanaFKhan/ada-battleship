@@ -181,9 +181,9 @@ namespace Ada_Battleship
             }
         }
 
-        private void ResetShip()
+        private void ResetShip(IPlayer player)
         {
-            foreach (var ship in _fleet)
+            foreach (var ship in player.PlayerFleet)
             {
                 foreach (var coordinate in ship.ShipCoordinate)
                 {
@@ -197,9 +197,9 @@ namespace Ada_Battleship
             }
         }
 
-        public void ResetBoard()
+        public void ResetBoard(IPlayer player)
         {
-            ResetShip();
+            ResetShip(player);
             foreach (var tile in Tiles)
             {
                 tile.TilePlaceholder = '.';

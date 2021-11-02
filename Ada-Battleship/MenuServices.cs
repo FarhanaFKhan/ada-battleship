@@ -16,15 +16,15 @@ namespace Ada_Battleship
             return orientation;
         }
 
-        public List<Ship> GetAvailableShips(IPlayer player1)
+        public List<Ship> GetAvailableShips(IPlayer player)
         {
             var listOfAvailableShips = new List<Ship>();
 
-            for (int i = 0; i < player1.PlayerFleet.Count; i++)
+            for (int i = 0; i < player.PlayerFleet.Count; i++)
             {
-                if (player1.PlayerFleet[i].Status == ShipStatus.Pending)
+                if (player.PlayerFleet[i].Status == ShipStatus.Pending)
                 {
-                    listOfAvailableShips.Add(player1.PlayerFleet[i]);
+                    listOfAvailableShips.Add(player.PlayerFleet[i]);
                 }
             }
 
