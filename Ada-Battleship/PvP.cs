@@ -12,6 +12,12 @@ namespace Ada_Battleship
         private readonly PvC _pvc = new PvC();
         public void Menu()
         {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("You are now in PvP mode");
+            Console.WriteLine();
+            Console.ResetColor();
+
             Console.WriteLine("Please enter your name:");
             var playerNameP1 = Console.ReadLine();
 
@@ -20,11 +26,14 @@ namespace Ada_Battleship
             List<Ship> playerOneFleet = Setup.Instance.ShipDetailsP1;
             player1.PlayerFleet = playerOneFleet;
 
-
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Greetings player one {player1.Name}! You have the following settings:");
+            Console.ResetColor();
+
             Console.WriteLine();
 
-            Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
+            Console.WriteLine($"{player1.Name} -- Board Dimensions:{_boardWidth}x{_boardHeight}");
             Console.WriteLine();
 
             player1.GameBoard.DisplayBoard();
@@ -34,6 +43,7 @@ namespace Ada_Battleship
 
             Console.WriteLine();
             Console.WriteLine();
+
             Console.WriteLine("Please enter your name:");
             var playerNameP2 = Console.ReadLine();
 
@@ -42,11 +52,13 @@ namespace Ada_Battleship
             List<Ship> playerTwoFleet = Setup.Instance.ShipDetailsP2;
             player2.PlayerFleet = playerTwoFleet;
 
-
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Greetings player two {player2.Name}! You have the following settings:");
+            Console.ResetColor();
+
             Console.WriteLine();
 
-            Console.WriteLine($"Board Dimensions:{_boardWidth}x{_boardHeight}");
+            Console.WriteLine($"{player2.Name} -- Board Dimensions:{_boardWidth}x{_boardHeight}");
             Console.WriteLine();
 
             player2.GameBoard.DisplayBoard();
@@ -142,8 +154,7 @@ namespace Ada_Battleship
                 Console.WriteLine($"available ships {currentPlayer.Name} = {availableShips.Count}");
 
                 Console.WriteLine();
-                Console.WriteLine("You are now in PvP mode");
-                Console.WriteLine();
+               
                 _menuServices.DisplayAvailableShips(currentPlayer);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;

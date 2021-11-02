@@ -121,18 +121,18 @@ namespace Ada_Battleship
         }
         public void GamePlay(IPlayer attacker, IPlayer defender)
         {
-            var attackerName = attacker.Name;
-            
-            Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
-            if ( attackerName!= "Eva")
+            //var attackerName = attacker.Name;
+            bool isValid;
+            do
             {
+                Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
                 var userInput = Console.ReadLine();
                 Console.WriteLine(userInput);
                 var splitMove = _boardServices.SplitMove(userInput);
                 var columnLabel = splitMove.Item1;
                 var rowNumber = splitMove.Item2;
                 var columnNumber = _boardServices.AlphabetToInt(columnLabel);
-                var isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
+                isValid = attacker.ShotBoard.ValidateMoveTorpedo(columnNumber, rowNumber);
                 if (isValid)
                 {
                     _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
@@ -150,52 +150,31 @@ namespace Ada_Battleship
                     Console.WriteLine("Please enter a valid move");
                     Console.ResetColor();
                 }
-            }
+            } while (!isValid);
 
-            else
-            {
-                var coordinateGenerator = _boardServices.RandomlyGenerateCoordinates(attacker.ShotBoard.Tiles);
-                var rowNumber = coordinateGenerator.Item1;
-                var columnNumber = coordinateGenerator.Item2;
-
-                bool isValid;
-                do
-                {
-                    isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
-                    _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine($"{attacker.Name} -- Shot board");
-                    Console.ResetColor();
-                    attacker.ShotBoard.DisplayBoard();
-                    DisplayAvailableShips(defender);
-                } while (!isValid);
-            }
 
         }
 
         public void GamePlayAI(IPlayer attacker, IPlayer defender)
         {
-            var attackerName = attacker.Name;
-            var defenderName = defender.Name;
+
             Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
-           
 
-            
-            
-                var coordinateGenerator = _boardServices.RandomlyGenerateCoordinates(attacker.ShotBoard.Tiles);
-                var rowNumber = coordinateGenerator.Item1;
-                var columnNumber = coordinateGenerator.Item2;
 
-                bool isValid;
-                do
-                {
-                    isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
-                    _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
-                    attacker.ShotBoard.DisplayBoard();
-                    DisplayAvailableShips(defender);
-                } while (!isValid);
-            
+            var coordinateGenerator = _boardServices.RandomlyGenerateCoordinates(attacker.ShotBoard.Tiles);
+            var rowNumber = coordinateGenerator.Item1;
+            var columnNumber = coordinateGenerator.Item2;
+
+            bool isValid;
+            do
+            {
+                isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
+
+                _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                attacker.ShotBoard.DisplayBoard();
+                DisplayAvailableShips(defender);
+            } while (!isValid);
+
 
         }
 

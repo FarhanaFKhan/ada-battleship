@@ -188,7 +188,9 @@ namespace Ada_Battleship
                 if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber)
                 {
                     isValid = true;
+                    break;
                 }
+                
             }
 
             return isValid;
@@ -196,7 +198,30 @@ namespace Ada_Battleship
 
 
 
+        public bool ValidateMoveTorpedo(int columnNumber, int rowNumber)
+        {
+            var isValid = true;
 
+            foreach (var tile in Tiles)
+            {
+                if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber && tile.TilePlaceholder == 'M')
+                {
+                    
+                        isValid = false;
+                        break;
+
+                }
+
+                if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber && tile.TilePlaceholder == 'H')
+                {
+                    isValid = false;
+                    break;
+                }
+
+            }
+
+            return isValid;
+        }
 
 
     }

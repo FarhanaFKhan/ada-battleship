@@ -166,7 +166,16 @@ namespace Ada_Battleship
                     defender = player1;
                     player1.State = 0;
                 }
-                _menuServices.GamePlay(attacker, defender);
+
+                if (attacker.Name != "Eva")
+                {
+                    _menuServices.GamePlay(attacker, defender);
+                }
+                else
+                {
+                    _menuServices.GamePlayAI(attacker,defender);
+                }
+                    
 
             } while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0);
 
