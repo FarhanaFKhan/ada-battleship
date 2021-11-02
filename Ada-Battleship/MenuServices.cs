@@ -5,6 +5,8 @@ namespace Ada_Battleship
 {
     public class MenuServices
     {
+        //helper functions associated with menu 
+
         private readonly BoardServices _boardServices = new BoardServices();
         private readonly PlayerServices _playerServices = new PlayerServices();
         public char ToggleOrientation()
@@ -47,7 +49,7 @@ namespace Ada_Battleship
         {
             int shipNumber;
             var availableShips = GetAvailableShips(player);
-            var shipName = availableShips[0].ShipName; //could be better
+            var shipName = availableShips[0].ShipName; 
 
             try
             {
@@ -83,22 +85,7 @@ namespace Ada_Battleship
                     {
                         isOverlap = true; //there is overlap
                     }
-                    //if (coordinate.X == x)
-                    //{
-                    //    if (y > 1 && y < (coordinate.Y + ship.ShipLength))
-                    //    {
-                    //        isOverlap = true;
-                    //    }
-
-                    //}
-                    //if (coordinate.Y == y)
-                    //{
-                    //    if (x > 1 && x < (coordinate.X + ship.ShipLength))
-                    //    {
-                    //        isOverlap = true;
-                    //    }
-
-                    //}
+                    
                 }
 
             }
@@ -119,20 +106,22 @@ namespace Ada_Battleship
 
             return listOfPlacedShips;
         }
-        public void GamePlay(IPlayer attacker, IPlayer defender)
+        public void HumanPlayerTurn(IPlayer attacker, IPlayer defender)
         {
-            //var attackerName = attacker.Name;
+           
             bool isValid;
             do
             {
                 Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
                 var userInput = Console.ReadLine();
-                Console.WriteLine(userInput);
+                
                 var splitMove = _boardServices.SplitMove(userInput);
                 var columnLabel = splitMove.Item1;
                 var rowNumber = splitMove.Item2;
                 var columnNumber = _boardServices.AlphabetToInt(columnLabel);
+
                 isValid = attacker.ShotBoard.ValidateMoveTorpedo(columnNumber, rowNumber);
+
                 if (isValid == true)
                 {
                     _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
@@ -155,7 +144,7 @@ namespace Ada_Battleship
 
         }
 
-        public void GamePlayAI(IPlayer attacker, IPlayer defender)
+        public void AITurn(IPlayer attacker, IPlayer defender)
         {
 
             Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
@@ -191,6 +180,112 @@ namespace Ada_Battleship
             {
                 Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
             }
+        }
+
+        public void SubMenu()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("1.Place ship manually.");
+            Console.WriteLine("2.Place all ships randomly.");
+            Console.WriteLine("3.Place remaining ships randomly.");
+            Console.WriteLine("4.Reset board.");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("5.Quit.");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        public void TorpedoMenu()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Please select from the following:");
+            Console.WriteLine("1.Enter coordinates to shoot a torpedo");
+            Console.WriteLine("2.Auto fire");
+            Console.ResetColor();
+        }
+
+        public void GamePlay(IPlayer player1, IPlayer player2)
+        {
+            List<Ship> listOfPlayerOnePlacedShips;
+            List<Ship> listOfPlayerTwoPlacedShips;
+
+
+
+            do
+            {
+                listOfPlayerOnePlacedShips = GetPlacedShips(player1);
+                listOfPlayerTwoPlacedShips = GetPlacedShips(player2);
+                Console.WriteLine($"p1 placed ship {listOfPlayerOnePlacedShips.Count}");
+                Console.WriteLine($"p2 placed ship {listOfPlayerTwoPlacedShips.Count}");
+                IPlayer attacker;
+                IPlayer defender;
+                if (listOfPlayerOnePlacedShips.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine($"Congratulations! Player 2 ({player2.Name}) won! ");
+                    Console.ResetColor();
+                    break;
+                }
+
+                if (listOfPlayerTwoPlacedShips.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine($"Congratulations! Player 1 ({player1.Name}) won! ");
+                    Console.ResetColor();
+                    break;
+                }
+
+                //this needs to be a method
+                if (player1.State == 0)
+                {
+                    attacker = player1;
+                    defender = player2;
+                    player1.State = 1;
+                }
+                else
+                {
+                    attacker = player2;
+                    defender = player1;
+                    player1.State = 0;
+                }
+
+                if (attacker.Name != "Eva")
+                {
+                    TorpedoMenu();
+
+                    int torpedoShot;
+                    try
+                    {
+
+                        torpedoShot = int.Parse(Console.ReadLine());
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        throw new InvalidOperationException();
+                    }
+
+                    switch (torpedoShot)
+                    {
+                        case 2:
+                            AITurn(attacker, defender);
+                            break;
+                        default:
+                            HumanPlayerTurn(attacker, defender);
+                            break;
+
+                    }
+                }
+                if (attacker.Name == "Eva" || attacker.Name == "Astra")
+                {
+                    AITurn(attacker, defender);
+                }
+
+
+            } while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0);
         }
         public void QuitGame()
         {

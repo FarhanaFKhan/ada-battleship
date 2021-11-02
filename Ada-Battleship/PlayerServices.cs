@@ -7,7 +7,10 @@ namespace Ada_Battleship
 {
     public class PlayerServices
     {
+        //helper functions for player
+
         private readonly BoardServices _boardServices = new BoardServices();
+
         //logic for shooting a torpedo
         public void ShootTorpedo(int x, int y, IPlayer attacker, IPlayer defender)
         {
@@ -17,19 +20,20 @@ namespace Ada_Battleship
             foreach (var attackerShotBoardTile in attackerShotBoardTiles)
             {
                 foreach (var tile in defenderBoardTiles)
-                {//need to update tileStatus to ship as well when changing placeholder 
+                {
+                    //need to update tileStatus to ship as well when changing placeholder 
                     if (tile.Coordinate.X == x && tile.Coordinate.Y == y && tile.TilePlaceholder == 's' && attackerShotBoardTile.Coordinate.X == x && attackerShotBoardTile.Coordinate.Y == y)
                     {
                         tile.TileStatus = TileStatus.Hit;
                         tile.TilePlaceholder = 'H';
                         attackerShotBoardTile.TileStatus = TileStatus.Hit;
                         attackerShotBoardTile.TilePlaceholder = 'H';
-                        
+
                         foreach (var ship in opponentShipInfo)
                         {
-                            
+
                             var coords = ship.ShipCoordinate.Where(c => c.X == x && c.Y == y).ToList();
-                            var coordExists = coords.Any(c=>c.X==x) && ship.ShipCoordinate.Any(c=>c.Y == y);
+                            var coordExists = coords.Any(c => c.X == x) && ship.ShipCoordinate.Any(c => c.Y == y);
 
                             if (coordExists)
                             {
@@ -46,7 +50,7 @@ namespace Ada_Battleship
 
                                 if (ship.Health == 0)
                                 {
-                                    _boardServices.UpdateShipStatus(shipName,"hit",defender);
+                                    _boardServices.UpdateShipStatus(shipName, "hit", defender);
                                 }
 
                             }

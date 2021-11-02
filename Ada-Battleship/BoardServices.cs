@@ -7,6 +7,7 @@ namespace Ada_Battleship
 {
     public class BoardServices
     {
+        //helper functions associated with board
 
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
@@ -179,6 +180,7 @@ namespace Ada_Battleship
 
             }
         }
+        
 
         private void ResetShip(IPlayer player)
         {
