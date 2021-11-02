@@ -119,7 +119,36 @@ namespace Ada_Battleship
                     player1.State = 0;
                 }
 
-                _menuServices.GamePlay(attacker, defender);
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Please select from the following:");
+                Console.WriteLine("1.Enter coordinates to shoot a torpedo");
+                Console.WriteLine("2.Auto fire");
+                Console.ResetColor();
+                Console.WriteLine();
+                int torpedoShot;
+                try
+                {
+
+                    torpedoShot = int.Parse(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    throw new InvalidOperationException();
+                }
+
+                switch (torpedoShot)
+                {
+                    case 2:
+                        _menuServices.GamePlayAI(attacker, defender);
+                        break;
+                    default:
+                        _menuServices.GamePlay(attacker, defender);
+                        break;
+
+                }
+
 
             } while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0);
         }
