@@ -139,15 +139,15 @@ namespace Ada_Battleship
             {
                 if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'H')
                 {
-                    rowNumber = shotBoardTiles[i+1].Coordinate.Y;
-                    columnNumber = shotBoardTiles[i+1].Coordinate.X;
+                    rowNumber = shotBoardTiles[i].Coordinate.Y+1;
                     break;
 
                 }
                 if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'M')
                 {
-                    rowNumber = shotBoardTiles[i+1].Coordinate.Y;
                     
+                    columnNumber = shotBoardTiles[i].Coordinate.X +1 ;
+
                     break;
 
                 }
