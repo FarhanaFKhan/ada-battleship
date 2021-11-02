@@ -155,7 +155,6 @@ namespace Ada_Battleship
 
 
 
-
             return (rowNumber, columnNumber);
         }
 

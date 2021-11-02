@@ -204,7 +204,7 @@ namespace Ada_Battleship
 
             foreach (var tile in Tiles)
             {
-                if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber && tile.TilePlaceholder == 'M')
+                if (tile.Coordinate.X == rowNumber && tile.Coordinate.Y == columnNumber && tile.TilePlaceholder == 'M')
                 {
                     
                         isValid = false;
@@ -212,7 +212,7 @@ namespace Ada_Battleship
 
                 }
 
-                if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber && tile.TilePlaceholder == 'H')
+                if (tile.Coordinate.X == rowNumber && tile.Coordinate.Y == columnNumber && tile.TilePlaceholder == 'H')
                 {
                     isValid = false;
                     break;

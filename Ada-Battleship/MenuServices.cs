@@ -133,7 +133,7 @@ namespace Ada_Battleship
                 var rowNumber = splitMove.Item2;
                 var columnNumber = _boardServices.AlphabetToInt(columnLabel);
                 isValid = attacker.ShotBoard.ValidateMoveTorpedo(columnNumber, rowNumber);
-                if (isValid)
+                if (isValid == true)
                 {
                     _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
                     Console.WriteLine();
