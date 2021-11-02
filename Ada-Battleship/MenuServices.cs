@@ -121,8 +121,10 @@ namespace Ada_Battleship
         }
         public void GamePlay(IPlayer attacker, IPlayer defender)
         {
+            var attackerName = attacker.Name;
+            
             Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
-            if (attacker.Name != "Eva")
+            if ( attackerName!= "Eva")
             {
                 var userInput = Console.ReadLine();
                 Console.WriteLine(userInput);
@@ -160,6 +162,31 @@ namespace Ada_Battleship
                     DisplayAvailableShips(defender);
                 } while (!isValid);
             }
+
+        }
+
+        public void GamePlayAI(IPlayer attacker, IPlayer defender)
+        {
+            var attackerName = attacker.Name;
+            var defenderName = defender.Name;
+            Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
+           
+
+            
+            
+                var coordinateGenerator = _boardServices.RandomlyGenerateCoordinates(attacker.ShotBoard.Tiles);
+                var rowNumber = coordinateGenerator.Item1;
+                var columnNumber = coordinateGenerator.Item2;
+
+                bool isValid;
+                do
+                {
+                    isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
+                    _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                    attacker.ShotBoard.DisplayBoard();
+                    DisplayAvailableShips(defender);
+                } while (!isValid);
+            
 
         }
 

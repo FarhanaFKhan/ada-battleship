@@ -9,6 +9,7 @@ namespace Ada_Battleship
         private readonly MenuServices _menuServices = new MenuServices();
         private readonly PvC _pvc = new PvC();
         private readonly PvP _pvp = new PvP();
+        private readonly CvC _cvc = new CvC();
 
 
 
@@ -23,7 +24,8 @@ namespace Ada_Battleship
             Console.WriteLine("Select Game Mode:");
             Console.WriteLine("1.Player v Comp.");
             Console.WriteLine("2.Player v Player.");
-            Console.WriteLine("3.Quit.");
+            Console.WriteLine("3.Computer v Computer.");
+            Console.WriteLine("4.Quit.");
 
             try
             {
@@ -42,6 +44,9 @@ namespace Ada_Battleship
                     _pvp.Menu();
                     break;
                 case 3:
+                    _cvc.Menu();
+                    break;
+                case 4:
                     Console.WriteLine("Quit Game");
                     break;
                 default:
