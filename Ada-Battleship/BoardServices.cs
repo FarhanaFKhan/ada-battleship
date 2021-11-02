@@ -11,7 +11,6 @@ namespace Ada_Battleship
 
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
-        private readonly List<Ship> _fleet = Setup.Instance.ShipDetailsP1;
         public readonly List<Tile> Tiles = new List<Tile>();
         //to place the ship
         //using tuple to be able to split the move in one function

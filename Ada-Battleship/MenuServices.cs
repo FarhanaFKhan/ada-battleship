@@ -218,8 +218,7 @@ namespace Ada_Battleship
             {
                 listOfPlayerOnePlacedShips = GetPlacedShips(player1);
                 listOfPlayerTwoPlacedShips = GetPlacedShips(player2);
-                Console.WriteLine($"p1 placed ship {listOfPlayerOnePlacedShips.Count}");
-                Console.WriteLine($"p2 placed ship {listOfPlayerTwoPlacedShips.Count}");
+                
                 IPlayer attacker;
                 IPlayer defender;
                 if (listOfPlayerOnePlacedShips.Count == 0)
@@ -252,7 +251,12 @@ namespace Ada_Battleship
                     player1.State = 0;
                 }
 
-                if (attacker.Name != "Eva")
+                
+                if (attacker.Name == "Eva" || attacker.Name == "Astra")
+                {
+                    AITurn(attacker, defender);
+                }
+                if (attacker.Name != "Eva" && attacker.Name != "Astra")
                 {
                     TorpedoMenu();
 
@@ -279,11 +283,6 @@ namespace Ada_Battleship
 
                     }
                 }
-                if (attacker.Name == "Eva" || attacker.Name == "Astra")
-                {
-                    AITurn(attacker, defender);
-                }
-
 
             } while (listOfPlayerOnePlacedShips.Count != 0 || listOfPlayerTwoPlacedShips.Count != 0);
         }

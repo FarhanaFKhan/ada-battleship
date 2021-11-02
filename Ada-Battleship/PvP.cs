@@ -105,11 +105,6 @@ namespace Ada_Battleship
                 }
 
 
-                Console.WriteLine();
-                Console.WriteLine($"available ships {currentPlayer.Name} = {availableShips.Count}");
-
-                Console.WriteLine();
-
                 _menuServices.SubMenu();
 
                 try
