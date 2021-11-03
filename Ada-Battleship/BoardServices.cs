@@ -7,10 +7,10 @@ namespace Ada_Battleship
 {
     public class BoardServices
     {
+        //helper functions associated with board
 
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
-        private readonly List<Ship> _fleet = Setup.Instance.ShipDetails;
         public readonly List<Tile> Tiles = new List<Tile>();
         //to place the ship
         //using tuple to be able to split the move in one function
@@ -47,9 +47,9 @@ namespace Ada_Battleship
             return alphabetToNum;
         }
 
-        
 
-        //combine the generators into one and use a tuple
+
+
         public int RandomlyGenerateColumnNumber(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();
@@ -61,15 +61,15 @@ namespace Ada_Battleship
             {
                 if (!alreadyTaken.Contains(columnNumber))
                 {
-                    
-                    
+
+
                     isValid = true;
                 }
                 else
                 {
                     alreadyTaken.Add(columnNumber);
                 }
-                
+
             }
 
             return columnNumber;
@@ -80,7 +80,7 @@ namespace Ada_Battleship
         {
             var rand = new Random();
             var rowNumber = rand.Next(1, _boardHeight);
-            
+
             var isValid = false;
             var alreadyTaken = new List<int>();
 
@@ -88,19 +88,22 @@ namespace Ada_Battleship
             {
                 if (!alreadyTaken.Contains(rowNumber))
                 {
-                    
+
                     isValid = true;
                 }
                 else
                 {
                     alreadyTaken.Add(rowNumber);
                 }
-               
+
             }
 
             return rowNumber;
         }
 
+        
+
+        //combine the generators into one and use a tuple for human players
         public (int, int) RandomlyGenerateCoordinates(List<Coordinate> shipCoordinates)
         {
             var rand = new Random();
@@ -109,20 +112,78 @@ namespace Ada_Battleship
             var isValid = false;
             var listOfCoordinates = shipCoordinates;
 
-            while (isValid == false)
+
+            while (isValid == false && listOfCoordinates.Count != 0)
             {
                 if (!listOfCoordinates.Exists(c => c.X == rowNumber && c.Y == columnNumber))
                 {
                     isValid = true;
-                    
+
                 }
             }
 
             return (rowNumber, columnNumber);
         }
-        private void ResetShip()
+
+        //method overload for generating coordinates for AI
+
+        public (int, int) RandomlyGenerateCoordinates(List<Tile> attackerShotBoard)
         {
-            foreach (var ship in _fleet)
+            var rand = new Random();
+            var rowNumber = rand.Next(1, _boardHeight);
+            var columnNumber = rand.Next(1, _boardHeight);
+            var shotBoardTiles = attackerShotBoard;
+
+
+            for (int i = 0; i < shotBoardTiles.Count; i++)
+            {
+                if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'H')
+                {
+                    rowNumber = shotBoardTiles[i].Coordinate.Y+1;
+                    break;
+
+                }
+                if (shotBoardTiles[i].Coordinate.X == rowNumber && shotBoardTiles[i].Coordinate.Y == columnNumber && shotBoardTiles[i].TilePlaceholder == 'M')
+                {
+                    
+                    columnNumber = shotBoardTiles[i].Coordinate.X +1 ;
+
+                    break;
+
+                }
+            }
+
+
+
+            return (rowNumber, columnNumber);
+        }
+
+
+        public void UpdateShipStatus(string name, string status, IPlayer currentPlayer)
+        {
+            foreach (var ship in currentPlayer.PlayerFleet)
+            {
+                if (ship.ShipName == name)
+                {
+                    switch (status)
+                    {
+                        case "hit":
+                            ship.Status = ShipStatus.Hit;
+                            break;
+                        default:
+                            ship.Status = ShipStatus.Placed;
+                            break;
+                    }
+
+                }
+
+            }
+        }
+        
+
+        private void ResetShip(IPlayer player)
+        {
+            foreach (var ship in player.PlayerFleet)
             {
                 foreach (var coordinate in ship.ShipCoordinate)
                 {
@@ -136,9 +197,9 @@ namespace Ada_Battleship
             }
         }
 
-        public void ResetBoard()
+        public void ResetBoard(IPlayer player)
         {
-            ResetShip();
+            ResetShip(player);
             foreach (var tile in Tiles)
             {
                 tile.TilePlaceholder = '.';

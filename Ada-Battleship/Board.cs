@@ -9,14 +9,17 @@ namespace Ada_Battleship
 {
     public class Board
     {
+        //responsible for setting up the board 
+
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<char> _columnLabels = new List<char>() { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
         public readonly List<Tile> Tiles = new List<Tile>();
-        private readonly List<Ship> _fleet = Setup.Instance.ShipDetails;
+        private readonly List<Ship> _fleet = Setup.Instance.ShipDetailsP1;
 
         public void AddTile()
         {
+            //this will add to become a board
             for (int i = 1; i <= _boardWidth; i++)
             {
                 for (int j = 1; j <= _boardHeight; j++)
@@ -28,9 +31,7 @@ namespace Ada_Battleship
         }
         public void DisplayBoard()
         {
-            // Console.Clear();
-            // AddTile();
-
+            //display game board and shot board
             for (var i = 0; i < _boardWidth; i++)
             {
                 Console.Write("\t" + _columnLabels[i]);
@@ -70,7 +71,7 @@ namespace Ada_Battleship
                     {
                         Console.ResetColor();
                         Console.Write("\t" + Tiles[j + counter].TilePlaceholder);
-                        //Console.Write("\t" + _tiles[j + counter].Coordinate.X );
+                        //Console.Write("\t" + Tiles[j + counter].Coordinate.X +","+ Tiles[j + counter].Coordinate.Y);
                     }
 
                 }
@@ -97,22 +98,23 @@ namespace Ada_Battleship
 
             return shipLength;
         }
-        public void AddShipCoordinates(string shipName, int x, int y)
+        public void AddShipCoordinates(string shipName, int x, int y, IPlayer currentPlayer)
         {
-            foreach (var ship in _fleet)
+            foreach (var ship in currentPlayer.PlayerFleet)
             {
                 if (ship.ShipName == shipName)
                 {
-                    ship.ShipCoordinate.Add(new Coordinate(x, y));
+                    //ship.ShipCoordinate.Add(new Coordinate(x, y));
+                    ship.SetCoordinates(x, y);
 
                 }
 
             }
 
         }
-        public void UpdateShipStatus(string name, string status)
+        public void UpdateShipStatus(string name, string status, IPlayer currentPlayer)
         {
-            foreach (var ship in _fleet)
+            foreach (var ship in currentPlayer.PlayerFleet)
             {
                 if (ship.ShipName == name)
                 {
@@ -131,10 +133,9 @@ namespace Ada_Battleship
             }
         }
 
-        public void PlaceShip(string shipName, int x, int y, char orientation)
+        public void PlaceShip(string shipName, int x, int y, char orientation, IPlayer currentPlayer)
         {
-            //length and direction
-
+            //place ship on the board
             int shipLength = GetShipLength(shipName);
 
             if (_boardWidth < shipLength + y || _boardHeight < shipLength + x)
@@ -155,7 +156,7 @@ namespace Ada_Battleship
                             if (tile.Coordinate.X == x && tile.Coordinate.Y == y + i)
                             {
                                 tile.TilePlaceholder = 's';
-                                AddShipCoordinates(shipName, x, y + i);
+                                AddShipCoordinates(shipName, x, y + i,currentPlayer);
 
                             }
                         }
@@ -164,7 +165,7 @@ namespace Ada_Battleship
                             if (tile.Coordinate.X == x + i && tile.Coordinate.Y == y)
                             {
                                 tile.TilePlaceholder = 's';
-                                AddShipCoordinates(shipName, x + i, y);
+                                AddShipCoordinates(shipName, x + i, y,currentPlayer);
 
                             }
                         }
@@ -173,7 +174,7 @@ namespace Ada_Battleship
                     }
 
                 }
-                UpdateShipStatus(shipName, "placed");
+                UpdateShipStatus(shipName, "placed", currentPlayer);
             }
 
 
@@ -181,6 +182,7 @@ namespace Ada_Battleship
 
         public bool ValidateMove(int columnNumber, int rowNumber)
         {
+            //make sure the move exists on the board
             var isValid = false;
 
             foreach (var tile in Tiles)
@@ -188,7 +190,9 @@ namespace Ada_Battleship
                 if (tile.Coordinate.X == columnNumber && tile.Coordinate.Y == rowNumber)
                 {
                     isValid = true;
+                    break;
                 }
+                
             }
 
             return isValid;
@@ -196,7 +200,31 @@ namespace Ada_Battleship
 
 
 
+        public bool ValidateMoveTorpedo(int columnNumber, int rowNumber)
+        {
+            //make sure its a legal move
+            var isValid = true;
 
+            foreach (var tile in Tiles)
+            {
+                if (tile.Coordinate.X == rowNumber && tile.Coordinate.Y == columnNumber && tile.TilePlaceholder == 'M')
+                {
+                    
+                        isValid = false;
+                        break;
+
+                }
+
+                if (tile.Coordinate.X == rowNumber && tile.Coordinate.Y == columnNumber && tile.TilePlaceholder == 'H')
+                {
+                    isValid = false;
+                    break;
+                }
+
+            }
+
+            return isValid;
+        }
 
 
     }

@@ -22,21 +22,19 @@ namespace Ada_Battleship.Configurations
         private string _shipName;
         private int _shipLength;
 
-        public List<Ship> ShipDetails = new List<Ship>();
+        public List<Ship> ShipDetailsP1 = new List<Ship>();
+        public List<Ship> ShipDetailsP2 = new List<Ship>();
 
-
-        public static Setup Instance
-        {
-            get
-            {
-                Console.WriteLine("Instance called");
-                return _lazy.Value;
-            }
-        }
+        public static Setup Instance => _lazy.Value;
 
         private Setup()
         {
-            Console.WriteLine("Constructor invoked.");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("\t\t\t\t\t*****ADA_BATTLESHIP*****");
+            Console.ResetColor();
+            Console.WriteLine();
             FileParser();
         }
 
@@ -68,11 +66,12 @@ namespace Ada_Battleship.Configurations
 
 
                         string[] shipInformation = value.Split(new char[] { ',' }, 2);
-                        if (!ShipDetails.Exists(x => x.ShipName == shipInformation[0]))
+                        if (!ShipDetailsP1.Exists(x => x.ShipName == shipInformation[0]) && !ShipDetailsP2.Exists(x => x.ShipName == shipInformation[0]))
                         {
                             _shipName = shipInformation[0];
                             _shipLength = int.Parse(shipInformation[1]);
-                            ShipDetails.Add(new Ship(_shipName,_shipLength));
+                            ShipDetailsP1.Add(new Ship(_shipName,_shipLength));
+                            ShipDetailsP2.Add(new Ship(_shipName, _shipLength));
 
                         }
 
