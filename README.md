@@ -1,56 +1,68 @@
 # Ada-battleship
+
 A clone of the classic Battleship game.
 
 ### 1. Challenge Outline (academic standard: pass level detail: section required for pass) – 10%
 
 - **a. Summary and review of the problem, overall proposed solution.**
 - This is a clone of the classic Battleship game
-- There are two players
+- There are two players with two boards (game board and a shot board)
 - Each player has a fleet of ships which the opponent tries to destroy
 - The player that damages all the ships in the opponent's fleet wins.
 - There are three modes of this game :Player v player, Player v computer and computer v computer
 - C# (OOP paradigm) was used to solve the problem.
 - **b. UML style diagram illustrating initial overall solution (linked to 1a)**
-- **c. Initial working plan, overall approach, development strategy and approach to quality (linked to 1a,  1b).** 
-- The problem was decomposed into smaller modules like player,ship,board. Iterative approach was adopted. 
+  ![UML](/images/uml.png)
+- **c. Initial working plan, overall approach, development strategy and approach to quality (linked to 1a, 1b).**
+- The problem was decomposed into smaller modules like player,ship,board. Iterative approach was adopted.
 - I decided to use version control as well. For that I used git. I branched off and made PRs and merged the code into main.
 - **d. Analysis and decomposition of the overall problem into key ‘epic’ style tasks (linked to 1b, 1c).**
-- **e. Initial object-oriented design ideas and planned phased breakdown into smaller tasks (linked to 1d).** 
+
+- I went over the requirements provided in the assignment brief and created a kanban board for it. As shown in the following diagram
+  ![epics](/images/kanban.png)
+- **e. Initial object-oriented design ideas and planned phased breakdown into smaller tasks (linked to 1d).**
+  I split the requirements down into smaller tasks as shown by the following images
+  ![breakdown](/images/breakdown.png)
+  ![tasks](/images/tasks.png)
 - The miro board with the task breakdown can be accessed [here](https://miro.com/app/board/o9J_lrcEOcw=/?invite_link_id=423947767633)
 
 ### 2. Development (academic standard: merit level detail: section required for merit) – 15%
 
-- **a. Adoption and use of ‘good’ standards (linked to 1a, 1b, 1c).** 
-- **b. Phase 1 development: tasks, code review and changes (linked to 1d,1e).** 
-- **c. ..repeated for each development phase.** 
-- **d. Phase n development: tasks, code review and changes (linked to 1d,1e).** 
-- **e. Ensuring quality through testing and resolving bugs (linked to 1a, 1b, 2a, 2b..2c).** 
-- **f. Reflection on key design challenges, innovations and how they were solved (with examples).** 
+- **a. Adoption and use of ‘good’ standards (linked to 1a, 1b, 1c).**
+- **b. Phase 1 development: tasks, code review and changes (linked to 1d,1e).**
+- Initially the classes were quite big, and had a lot of dependencies. One class , for example board, had large methods that were doing multiple things like getting the ship length, get the list of placed ships and the list of available ships. That was later abstracted into a board services class.
+- **e. Ensuring quality through testing and resolving bugs (linked to 1a, 1b, 2a, 2b..2c).**
+- There was no error handling when a human player was inputting something. I used try catch blocks to throw exception. I also logged them for transparency.
+- implemented validation to make sure the coordinates that are put in for ship placement or shooting a torpedo exist on the board.
+- **f. Reflection on key design challenges, innovations and how they were solved (with examples).**
+- The biggest challenge was to swap turns between the players. It took me a lot of time to figure out how implement a state pattern.
 
-### 3. Evaluation (academic standard: distinction level detail: section required for distinction) – 10% 
+### 3. Evaluation (academic standard: distinction level detail: section required for distinction) – 10%
 
-- **a. Analysis with embedded examples of key code refactoring, reuse, smells.** 
+- **a. Analysis with embedded examples of key code refactoring, reuse, smells.**
 - changed the names to clear self-explanatory ones.
 - broke down big methods into smaller ones
 - single responsibility methods
 - **b. Implementation and effective use of ‘advanced’ programming principles (with examples).**
 - I used advanced programming principles like separation of responsibilty principle/ single responsibility principle. It is evidenced in the way I created methods. GetShipLength method gets only the ship length.
--  I also made use of FSM pattern. That is evidenced in the game the players swap turns between them unless opponent's fleet is destroyed.
--  I implemented interfaces (IPlayer) to loosen the coupling.
--  Singleton pattern for configuration
+- I also made use of FSM pattern. That is evidenced in the way the players swap turns between them unless opponent's fleet is destroyed.
+- I implemented interfaces (IPlayer) to loosen the coupling.
+- Singleton pattern was used for configuration.
 - **c. Features showcase and embedded innovations (with examples) - opportunity to ‘highlight’ best bits.**
 - Reading a config.ini file to setup the configuration.
 - Regex to split the input coordinates by the user
-- computer v computer mode. 
+- computer v computer mode.
 - randomly generate moves so that same mcoordinates are not generated by the computer
 - Auto-torpedo
-- **d. Improved algorithms – research, design, implementation, and tested confirmation (with examples).** 
+- validation to make sure the coordinates exist on the board
+- **d. Improved algorithms – research, design, implementation, and tested confirmation (with examples).**
 - In order to loosen the coupling, I researched interfaces and implemented them. (IPlayer)
-- Variables with shorter lifespan/scope also helped. 
-Only creating player instances where required helped a lot. It took a lot of time to figure out.
+- Variables with shorter lifespan/scope also helped.
+  Only creating player instances where required helped a lot. It took a lot of time to figure out.
 - **e. Reflective review, opportunities to improve and continued professional development.**
-- There is room for improvement. I haven't implemented the 'hidden mines' functionality, that can be done in the future. 
+- There is room for improvement. I haven't implemented the 'hidden mines' functionality, that can be done in the future.
 - The code improved with each iteration. It can be seen that classes like PvC are quite long and might have tight coupling but CvC class shows that I abstracted functionality into smaller methods and reused them rather than the whole block of code.
-- I feel more comfortable with git and version control as branched off and made PRs. I feel I understand C# and concepts of OOP better now. When I started the project I was intimidated by it. However, I quite enjoyed working on this project. 
+- I feel more comfortable with git and version control as I branched off and made PRs.
+- I feel I understand C# and concepts of OOP better now. When I started the project I was intimidated by it. However, I quite enjoyed working on this project.
 - I would definitely continue exploring c# more. Even though I implemented interfaces, I want to practice working with then and also understand dependancy injection better.
 - The services (Board services etc) could also have had interfaces implemented.
