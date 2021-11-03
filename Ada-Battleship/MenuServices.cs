@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 
 namespace Ada_Battleship
@@ -125,10 +126,12 @@ namespace Ada_Battleship
                 if (isValid == true)
                 {
                     _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine($"{attacker.Name} -- Shot board");
                     Console.ResetColor();
+
                     attacker.ShotBoard.DisplayBoard();
                     Console.WriteLine();
                     DisplayAvailableShips(defender);
@@ -146,7 +149,7 @@ namespace Ada_Battleship
 
         public void AITurn(IPlayer attacker, IPlayer defender)
         {
-
+           
             Console.WriteLine($"{attacker.Name} - Please enter coordinates(e.g A2):");
 
 
@@ -160,6 +163,10 @@ namespace Ada_Battleship
                 isValid = attacker.ShotBoard.ValidateMove(columnNumber, rowNumber);
 
                 _playerServices.ShootTorpedo(rowNumber, columnNumber, attacker, defender);
+                
+                Console.WriteLine();
+                Console.WriteLine($"{attacker.Name} -- Shot board");
+                Console.WriteLine();
                 attacker.ShotBoard.DisplayBoard();
                 DisplayAvailableShips(defender);
             } while (!isValid);
@@ -170,15 +177,17 @@ namespace Ada_Battleship
         public void DisplayAvailableShips(IPlayer currentPlayer)
         {
             Console.WriteLine();
-
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"{currentPlayer.Name} -- Ships Details:");
             Console.WriteLine();
             Console.Write("\tName  \tLength  \tHealth  \tstatus");
+            Console.ResetColor();
             Console.WriteLine();
-
+            
             foreach (var ship in currentPlayer.PlayerFleet)
             {
                 Console.WriteLine("\t" + ship.ShipName + "\t" + ship.ShipLength + "\t " + ship.Health + "\t " + ship.Status);
+                
             }
         }
 
@@ -209,13 +218,14 @@ namespace Ada_Battleship
 
         public void GamePlay(IPlayer player1, IPlayer player2)
         {
+            
+
             List<Ship> listOfPlayerOnePlacedShips;
             List<Ship> listOfPlayerTwoPlacedShips;
 
-
-
             do
             {
+                
                 listOfPlayerOnePlacedShips = GetPlacedShips(player1);
                 listOfPlayerTwoPlacedShips = GetPlacedShips(player2);
                 
@@ -258,6 +268,13 @@ namespace Ada_Battleship
                 }
                 if (attacker.Name != "Eva" && attacker.Name != "Astra")
                 {
+                    //Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine($"{attacker.Name} -- Shot board");
+                    attacker.ShotBoard.DisplayBoard();
+                    Console.WriteLine();
+                    DisplayAvailableShips(attacker);
+
                     TorpedoMenu();
 
                     int torpedoShot;

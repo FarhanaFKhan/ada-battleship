@@ -68,8 +68,7 @@ namespace Ada_Battleship
 
 
             SetPlayerBoard(player1);
-
-            Console.WriteLine($"List of player one placed ships:{_menuServices.GetPlacedShips(player1).Count}");
+            
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"{player2.Name}'s turn to place ships.");
             Console.ResetColor();
@@ -99,6 +98,7 @@ namespace Ada_Battleship
                     var input = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(input))
                     {
+                        Console.Clear();
                         currentPlayer.State = 0;
                         break;
                     }

@@ -107,7 +107,7 @@ namespace Ada_Battleship
                 }
 
             } while (pvCMenuOption != 5);
-
+            Console.Clear();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Comp's turn to place ships.");

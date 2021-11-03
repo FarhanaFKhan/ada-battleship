@@ -9,6 +9,8 @@ namespace Ada_Battleship
 {
     public class Board
     {
+        //responsible for setting up the board 
+
         private readonly int _boardWidth = Setup.Instance.BoardWidth;
         private readonly int _boardHeight = Setup.Instance.BoardHeight;
         private readonly List<char> _columnLabels = new List<char>() { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -17,6 +19,7 @@ namespace Ada_Battleship
 
         public void AddTile()
         {
+            //this will add to become a board
             for (int i = 1; i <= _boardWidth; i++)
             {
                 for (int j = 1; j <= _boardHeight; j++)
@@ -28,8 +31,7 @@ namespace Ada_Battleship
         }
         public void DisplayBoard()
         {
-            //Console.Clear();
-
+            //display game board and shot board
             for (var i = 0; i < _boardWidth; i++)
             {
                 Console.Write("\t" + _columnLabels[i]);
@@ -133,8 +135,7 @@ namespace Ada_Battleship
 
         public void PlaceShip(string shipName, int x, int y, char orientation, IPlayer currentPlayer)
         {
-            //length and direction
-
+            //place ship on the board
             int shipLength = GetShipLength(shipName);
 
             if (_boardWidth < shipLength + y || _boardHeight < shipLength + x)
@@ -181,6 +182,7 @@ namespace Ada_Battleship
 
         public bool ValidateMove(int columnNumber, int rowNumber)
         {
+            //make sure the move exists on the board
             var isValid = false;
 
             foreach (var tile in Tiles)
@@ -200,6 +202,7 @@ namespace Ada_Battleship
 
         public bool ValidateMoveTorpedo(int columnNumber, int rowNumber)
         {
+            //make sure its a legal move
             var isValid = true;
 
             foreach (var tile in Tiles)
